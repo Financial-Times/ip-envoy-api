@@ -24,15 +24,15 @@ paths:
           description: Api authorization key
       responses:
         '200':
-          description: Success | A JSON array of Track objects
+          $ref: '#/components/responses/200OK'
           content:
             application/json:
               schema: 
                 $ref: '#/components/schemas/Track'
         '401':
-          description: Error | Unauthorized request
+          $ref: '#/components/responses/401Unauthorized'
         'default':
-          description: Error | Unexpected error
+          $ref: '#/components/responses/default'
   /__health:
     get:
       summary: Performs health check
@@ -48,11 +48,11 @@ paths:
           description: Api authorization key
       responses:
         '200':
-          description: Success 
+          $ref: '#/components/responses/200OK'
         '401':
-          description: Error | Unauthorized request
+          $ref: '#/components/responses/401Unauthorized'
         'default':
-          description: Error | Unexpected error
+          $ref: '#/components/responses/default'
 
 components:
   schemas:
@@ -75,4 +75,13 @@ components:
           type: boolean
         created:
           type: string
-          format: date-time 
+          format: date-time
+  responses:
+    200OK:
+      description: OK
+    401Unauthorized:
+      description: Authorization information is missing or invalid
+    404NotFound:
+      description: The specified resource was not found
+    default:
+      description: Unexpected error
