@@ -33,6 +33,26 @@ paths:
           description: Error | Unauthorized request
         'default':
           description: Error | Unexpected error
+  /__health:
+    get:
+      summary: Performs health check
+      tags:
+        - Health check
+      description: Performs health check
+      parameters:
+        - in: header
+          name: x-api-key
+          required: true
+          schema:
+            type: string
+          description: Api authorization key
+      responses:
+        '200':
+          description: Success 
+        '401':
+          description: Error | Unauthorized request
+        'default':
+          description: Error | Unexpected error
 
 components:
   schemas:
