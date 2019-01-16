@@ -1,7 +1,7 @@
-import knex from 'knex'
+const knex = require('knex')
 
-import knexConfig from '../../knexfile'
-import logger from '../logger'
+const knexConfig = require('../../knexfile')
+const logger = require('../logger')
 
 const maxQueryTimeMillis = process.env.MAX_QUERY_TIME || 2000
 
@@ -38,4 +38,4 @@ db.on('query-response', (response, query) => {
   delete times[uid]
 })
 
-export default db
+module.exports = db

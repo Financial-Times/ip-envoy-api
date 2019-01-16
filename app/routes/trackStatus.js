@@ -1,11 +1,25 @@
-import express from 'express'
+const express = require("express");
 
-import { trackStatus } from '../controllers/trackStatus'
+const { trackStatus } = require("../controllers/trackStatus");
 
-const router = express.Router()
+const router = express.Router();
 
-export default function(app) {
-  // list all track status
-  router.route('/').get(trackStatus)
-  app.use('/trackStatus', router)
-}
+module.exports = app => {
+  router
+    .route("/")
+    /**
+     * @swagger
+     *
+     * /trackStatus:
+     *   get:
+     *     summary: Adds a new pet to the store
+     *     tags:
+     *       - TrackStatus
+     *     description: Get track revision
+     *     responses:
+     *       200:
+     *         description: Success
+     */
+    .get(trackStatus);
+  app.use("/trackStatus", router);
+};

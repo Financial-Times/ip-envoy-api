@@ -1,5 +1,5 @@
 
-import knex from '../../db/connect'
+const knex = require( '../../db/connect')
 
 async function getAllScheduled(statuses = [3]) {
   /*
@@ -278,7 +278,7 @@ async function findStuckEntities() {
   return rs.rows
 }
 
-export {
+module.exports = {
   getAllStarting,
   getAllScheduled,
   getBySilo,

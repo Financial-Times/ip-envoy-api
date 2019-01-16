@@ -1,5 +1,5 @@
-import core from '../core'
-import logger from '../logger'
+const core = require('../../../core')
+const logger = require('../../../logger')
 
 async function listTrack(req, res, next) {
   try {
@@ -7,10 +7,9 @@ async function listTrack(req, res, next) {
     return res.status(200).json({
       data: list
     })
-    return next()
   } catch (e) {
     return next(e)
   }
 }
 
-export { listTrack }
+module.exports = { listTrack }

@@ -1,3 +1,3 @@
-import { default as logger } from '@financial-times/n-logger'
+const logger = require('@financial-times/n-logger').default
 
-export default logger
+module.exports = logger

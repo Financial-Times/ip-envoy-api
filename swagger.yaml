@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Envoy API V1
+  description: Envoy API V1
+  version: 0.0.1
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Development server
+  - url: https://ip-envoy-api.herokuapp.com/api/v1
+    description: Production server
+paths:
+  /listTrack:
+    get:
+      summary: Returns a list of Tracks
+      tags:
+        - Track
+      description: Returns a list of Tracks
+      parameters:
+        - in: header
+          name: x-api-key
+          required: true
+          schema:
+            type: string
+          description: Api authorization key
+      responses:
+        '200':
+          description: Success | A JSON array of Track objects
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Track'
+        '401':
+          description: Error | Unauthorized request
+        'default':
+          description: Error | Unexpected error
+
+components:
+  schemas:
+    Track:
+      type: object
+      properties:
+        trackId:
+          type: integer
+        trackRevId:
+          type: integer
+        statusId:
+          type: integer
+        name:
+          type: string
+        descr:
+          type: string
+        status:
+          type: string
+        isActive:
+          type: boolean
+        created:
+          type: string
+          format: date-time 

@@ -1,4 +1,4 @@
-import knex from '../../db/connect'
+const knex = require('../../db/connect')
 
 // Return a list of tracks that the given entity resides within, along with the source silo
 async function getTracks(entityId, statuses = [3] /* live */) {
@@ -40,4 +40,4 @@ async function getMany(entityIds) {
   return rs
 }
 
-export { getTracks, addEntityType, get, getMany  }
+module.exports = { getTracks, addEntityType, get, getMany  }

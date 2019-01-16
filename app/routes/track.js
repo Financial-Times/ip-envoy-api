@@ -1,17 +1,81 @@
-import express from 'express'
+const express = require("express");
 
-import { list, getById, postControllers , updateTrack, getLatestRevision } from '../controllers/trackController'
+const trackController = require("../controllers/trackController");
 
-const router = express.Router()
+const router = express.Router();
 
-export default function(app) {
-  // List all tracks
-  router.route('/').get(list)
-  // list track by Id
-  router.route('/:trackId').get(getById)
+module.exports = app => {
+  /**
+   * @swagger
+   *
+   * /track:
+   *   get:
+   *     description: Get all tracks
+   *     responses:
+   *       200:
+   *         description: Success
+   */
+  router.route("/").get(trackController.list);
+  /**
+   * @swagger
+   *
+   * /track:
+   *   get:
+   *     summary: Adds a new pet to the store
+   *     tags:
+   *       - Track
+   *     description: Get all tracks
+   *     responses:
+   *       200:
+   *         description: Success
+   */
+  router
+    .route("/:trackId")
+    /**
+     * @swagger
+     *
+     * /track/{trackId}:
+     *   get:
+     *     summary: Adds a new pet to the store
+     *     tags:
+     *       - Track
+     *     description: Get track by id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
+    .get(trackController.getById)
+    /**
+     * @swagger
+     *
+     * /track/{trackId}:
+     *   patch:
+     *     summary: Adds a new pet to the store
+     *     tags:
+     *       - Track
+     *     description: Update track by id
+     *     responses:
+     *       200:
+     *         description: Success
+     */
+    .patch(trackController.updateTrack);
   //.post(postControllers)
-  .patch(updateTrack)
-  // list latest Revision for by trackId
-  router.route('/:trackId/latestRevision').get(getLatestRevision)
-  app.use('/track', router)
-}
+  // // list latest Revision for by trackId
+  router
+    .route("/:trackId/latestRevision")
+    /**
+     * @swagger
+     *
+     * /track/{trackId}/latestRevision:
+     *   get:
+     *     summary: Adds a new pet to the store
+     *     tags:
+     *       - Track
+     *     description: Get track last revision
+     *     responses:
+     *       200:
+     *         description: Success
+     */
+    .get(trackController.getLatestRevision);
+  app.use("/track", router);
+};

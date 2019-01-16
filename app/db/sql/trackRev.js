@@ -1,4 +1,4 @@
-import knex from '../../db/connect'
+const knex = require('../../db/connect')
 
 const options = {
   columns: [
@@ -62,7 +62,7 @@ async function updateTrackRemoveDate(date, tableName, column, trackId) {
     })
 }
 
-export default {
+module.exports = {
   getById,
   getByTrackId,
   saveTrack,

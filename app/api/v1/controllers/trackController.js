@@ -1,5 +1,5 @@
-import core from '../core'
-import logger from '../logger'
+const core = require('../core')
+const logger = require('../logger')
 
 async function setCurrentRev(req, res, next) {
   try {
@@ -101,7 +101,7 @@ async function getLatestRevision(req, res, next) {
   next()
 }
 
-export {
+module.exports = {
   list,
   getById,
   getLatestRevision,

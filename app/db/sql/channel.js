@@ -1,4 +1,4 @@
-import knex from '../../db/connect'
+const knex = require('../../db/connect')
 
 async function haveChannelType({ name, config }) {
   config = JSON.stringify(config)
@@ -153,7 +153,7 @@ async function purgeAllDrainedLogs() {
   `);
 }
 
-export {
+module.exports = {
   haveChannelType,
   haveChannel,
   getChannels,

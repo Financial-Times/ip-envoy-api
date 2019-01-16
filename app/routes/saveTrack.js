@@ -1,10 +1,25 @@
-import express from 'express'
+const express = require("express");
 
-import { postTrack } from '../controllers/trackSaveControler'
+const { postTrack } = require("../controllers/trackSaveControler");
 
-const router = express.Router()
+const router = express.Router();
 
-export default function(app) {
-  router.route('/').post(postTrack)
-  app.use('/saveTrack', router)
-}
+module.exports = app => {
+  router
+    .route("/")
+    /**
+     * @swagger
+     *
+     * /saveTrack:
+     *   get:
+     *     summary: Adds a new pet to the store
+     *     tags:
+     *       - SaveTrack
+     *     description: Get track revision
+     *     responses:
+     *       200:
+     *         description: Success
+     */
+    .post(postTrack);
+  app.use("/saveTrack", router);
+};

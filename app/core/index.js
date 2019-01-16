@@ -1,21 +1,21 @@
-import entity from './entity'
-import track from './track'
-import trackRev from './trackRev'
-import silo from './silo'
-import channel from './channel'
-// const ruleSetCore = require('./ruleSet');
-import step from './step'
-import campaign from './campaign'
-import trackStatus from './trackStatus'
+const entity = require('./entity')
+const track = require('./track')
+const trackRev = require('./trackRev')
+const silo = require('./silo')
+const channel = require('./channel')
+// // const ruleSetCore = require('./ruleSet');
+const step = require('./step')
+const campaign = require('./campaign')
+const trackStatus = require('./trackStatus')
 
-export default {
+module.exports = {
   entity,
   track,
   trackRev,
   silo,
   channel,
-  //ruleSet: ruleSetCore,
+  // //ruleSet: ruleSetCore,
   step,
   campaign,
   trackStatus
-};
+}

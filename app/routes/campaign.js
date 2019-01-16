@@ -1,11 +1,25 @@
-import express from 'express'
+const express = require("express");
 
-import { campaign } from '../controllers/campaign'
+const { campaign } = require("../controllers/campaign");
 
-const router = express.Router()
+const router = express.Router();
 
-export default function(app) {
-  // list all campaigns
-  router.route('/').get(campaign)
-  app.use('/campaign', router)
-}
+module.exports = app => {
+  router
+    .route("/")
+    /**
+     * @swagger
+     *
+     * /campaign:
+     *   get:
+     *     summary: Adds a new pet to the store
+     *     tags:
+     *       - Campaign
+     *     description: Get track revision
+     *     responses:
+     *       200:
+     *         description: Success
+     */
+    .get(campaign);
+  app.use("/campaign", router);
+};

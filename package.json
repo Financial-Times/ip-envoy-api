@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "webpack --mode=production --config webpack.config.js",
-    "start": "NODE_ENV=production node ./dist/api.generated.js",
+    "start": "NODE_ENV=production node ./app/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,7 +15,7 @@
     "watch": [
       "./app"
     ],
-    "exec": "webpack --mode=development --config webpack.config.js && node --require dotenv/config ./dist/api.generated.js"
+    "exec": "NODE_ENV=development node --require dotenv/config ./app/index.js"
   },
   "dependencies": {
     "@financial-times/n-logger": "^6.1.0",
@@ -24,18 +23,13 @@
     "express": "^4.16.4",
     "knex": "^0.15.2",
     "lodash": "^4.17.11",
-    "pg": "^7.6.0"
+    "pg": "^7.6.0",
+    "swagger-jsdoc": "^3.2.6",
+    "swagger-ui-express": "^4.0.2",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
     "dotenv": "^6.1.0",
-    "nodemon": "^1.18.4",
-    "webpack": "^4.22.0",
-    "webpack-cli": "^3.1.2",
-    "webpack-node-externals": "^1.7.2"
+    "nodemon": "^1.18.4"
   }
 }

@@ -1,4 +1,4 @@
-import knex from '../../db/connect'
+const knex = require('../../db/connect')
 
 async function getStatus() {
   const column = [
@@ -8,4 +8,4 @@ async function getStatus() {
   return knex.select(column)
     .from('core.trackStatus')
 }
-export { getStatus }
+module.exports = { getStatus }

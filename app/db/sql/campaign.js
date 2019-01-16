@@ -1,4 +1,4 @@
-import knex from '../../db/connect'
+const knex = require('../../db/connect')
 
 async function add({ name, descr, departmentId }) {
   return (await knex
@@ -23,4 +23,4 @@ async function getCampaigns() {
     .from('core.campaign')
 }
 
-export { add, addRevision, getCampaigns }
+module.exports = { add, addRevision, getCampaigns }

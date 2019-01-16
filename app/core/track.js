@@ -1,5 +1,5 @@
-import trackSQL from '../db/sql/track'
-import trackRevSQL from '../db/sql/trackRev'
+const trackSQL = require('../db/sql/track')
+const trackRevSQL = require('../db/sql/trackRev')
 
 // const siloSQL = require('../db/sql/silo')
 // const entitySQL = require('../db/sql/entity')
@@ -53,13 +53,13 @@ async function updateTrack(trackId, name, descr, statusId) {
     .catch((error) => error)
 }
 
-export {
+module.exports = {
   start,
 
   // TODO: add a wrapper function for these 3 functions.
   // queryLatestRevision: trackSQL.queryLatestRevision,
   // setCurrentRevById: trackSQL.setCurrentRevById,
-  // list: trackSQL.list,
+  list: trackSQL.list,
   // getById: trackSQL.getById,
   saveTrack,
   updateTrack

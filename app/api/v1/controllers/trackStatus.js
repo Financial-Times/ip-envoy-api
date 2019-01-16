@@ -1,15 +1,14 @@
-import core from '../core'
+const core = require('../core')
 
 async function trackStatus(req, res, next) {
   try {
     const trackStatusList = await core.trackStatus.getStatus()
-    res.status(200).json({
+    return res.status(200).json({
       trackStatusList
     });
-    return next()
   } catch (e) {
     return next(e)
   }
 }
 
-export { trackStatus }
+module.exports = { trackStatus }

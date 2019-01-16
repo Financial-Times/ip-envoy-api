@@ -1,5 +1,5 @@
-import knex from '../../db/connect'
-import trackRevSQL from './trackRev'
+const knex = require('../../db/connect')
+const trackRevSQL = require('./trackRev')
 
 async function list(statusIds = [1, 2, 3, 4, 5]) {
   const ids = statusIds.join(',') // needed due to knex weirdness
@@ -142,7 +142,7 @@ async function addTrackStatus({ trackStatusId, name, descr = null }) {
     .into('core.trackStatus'))[0]
 }
 
-export {
+module.exports = {
   list,
   getById,
   getSourceSilos,

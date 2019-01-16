@@ -1,4 +1,4 @@
-import knex from '../../db/connect'
+const knex = require('../../db/connect')
 
 async function findByType(trackId, siloTypeId) { // Finds the source silo and stepId for given track
   const rs = await knex.raw(`
@@ -127,7 +127,7 @@ async function addSiloType(name, descr) {
     .into('core.siloType'))[0]
 }
 
-export {
+module.exports = {
   findByType,
   findStartingId,
   addToFirst,

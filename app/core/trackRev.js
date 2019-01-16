@@ -1,4 +1,4 @@
-import trackRevSQL from '../db/sql/trackRev'
+const trackRevSQL = require('../db/sql/trackRev')
 
 //const trackRevDeploy = require('./trackRevDeploy');
 //const dbBuilder = trackRevDeploy.dbBuilder;
@@ -86,7 +86,7 @@ async function updateTrackRemoveDate(date, table, column, trackId) {
 //   return true;
 // }
 
-export default {
+module.exports = {
   getById,
   saveTrack,
   //deployTrack,
