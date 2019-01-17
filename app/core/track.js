@@ -57,15 +57,18 @@ async function updateTrack(trackId, name, descr, statusId) {
     .catch(error => error);
 }
 
+async function queryLatestRevision(trackId) {
+  return trackSQL.queryLatestRevision(trackId);
+}
+
 async function getById(trackId) {
   return trackSQL.getById(trackId);
 }
 
 module.exports = {
   start,
-
   // TODO: add a wrapper function for these 3 functions.
-  // queryLatestRevision: trackSQL.queryLatestRevision,
+  queryLatestRevision,
   // setCurrentRevById: trackSQL.setCurrentRevById,
   list: trackSQL.list,
   getById,

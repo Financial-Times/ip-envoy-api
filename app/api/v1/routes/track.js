@@ -1,12 +1,18 @@
 const express = require("express");
 
-const { getById } = require("../controllers/trackController");
+const {
+  getById,
+  updateTrack,
+  getLatestRevision
+} = require("../controllers/trackController");
 
 const router = express.Router();
-router.route("/:trackId").get(getById);
-// .patch(trackController.updateTrack)
+router
+  .route("/:trackId")
+  .get(getById)
+  .patch(updateTrack);
+
 // .post(postControllers);
-// list latest Revision for by trackId
-// router.route("/:trackId/latestRevision").get(trackController.getLatestRevision);
+router.route("/:trackId/latestRevision").get(getLatestRevision);
 
 module.exports = router;

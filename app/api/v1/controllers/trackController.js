@@ -108,8 +108,15 @@ async function updateTrack(req, res, next) {
 }
 
 async function getLatestRevision(req, res, next) {
-  core.track.queryLatestRevision();
-  next();
+  const { trackId } = req.params;
+  try {
+    const latestRevision = await core.track.queryLatestRevision(trackId);
+    return res.status(200).json({
+      data: latestRevision
+    });
+  } catch (e) {
+    return next(e);
+  }
 }
 
 module.exports = {

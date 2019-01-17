@@ -81,6 +81,30 @@ paths:
           $ref: '#/components/responses/401Unauthorized'
         'default':
           $ref: '#/components/responses/default'
+  /track/{trackId}/latestRevision:
+    get:
+      summary: Returns Track latest revision
+      tags:
+        - Track
+      description: Returns Track latest revision
+      parameters:
+        - $ref: '#/components/parameters/apiKeyParam'
+        - in: path
+          name: trackId
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Track'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        'default':
+          $ref: '#/components/responses/default'
   /__health:
     get:
       summary: Performs health check
@@ -96,7 +120,7 @@ paths:
           $ref: '#/components/responses/401Unauthorized'
         'default':
           $ref: '#/components/responses/default'
-
+          
 components:
   schemas:
     Track:
