@@ -99,10 +99,9 @@ async function updateTrack(req, res, next) {
       descr,
       statusId
     );
-    res.status(200).json({
+    return res.status(200).json({
       data: updatedTrack
     });
-    return next();
   } catch (e) {
     return next(e);
   }

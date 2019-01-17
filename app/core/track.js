@@ -1,5 +1,5 @@
-const trackSQL = require('../db/sql/track')
-const trackRevSQL = require('../db/sql/trackRev')
+const trackSQL = require("../db/sql/track");
+const trackRevSQL = require("../db/sql/trackRev");
 
 // const siloSQL = require('../db/sql/silo')
 // const entitySQL = require('../db/sql/entity')
@@ -31,26 +31,30 @@ async function start(trackId) {
   // just set track state to live, queues have been added since this was first written and Entities
   // can now be placed into a source silo if the conditions are correct
   // TODO: Could expand the API to set track to any status level. Will make it far more useful
-  await trackSQL.setState(trackId, 3) // set track to state live
-  return false
+  await trackSQL.setState(trackId, 3); // set track to state live
+  return false;
 }
 
 async function saveTrack(trackData) {
-  const { newTrack } = trackData
+  const { newTrack } = trackData;
   try {
-    const savedTrackRes = await trackSQL.add({ ...newTrack, entityTypeName: 'user' })
-    await trackSQL.addTrackRev(savedTrackRes.trackId, newTrack.isActive)
-    const res = await trackRevSQL.getByTrackId(savedTrackRes.trackId)
-    return res[0]
+    const savedTrackRes = await trackSQL.add({
+      ...newTrack,
+      entityTypeName: "user"
+    });
+    await trackSQL.addTrackRev(savedTrackRes.trackId, newTrack.isActive);
+    const res = await trackRevSQL.getByTrackId(savedTrackRes.trackId);
+    return res[0];
   } catch (e) {
-    throw e
+    throw e;
   }
 }
 
 async function updateTrack(trackId, name, descr, statusId) {
-  return trackSQL.updateTrack(trackId, name, descr, statusId)
-    .then((updatedTrack) => updatedTrack)
-    .catch((error) => error)
+  return trackSQL
+    .updateTrack(trackId, name, descr, statusId)
+    .then(updatedTrack => updatedTrack)
+    .catch(error => error);
 }
 
 async function getById(trackId) {
@@ -67,4 +71,4 @@ module.exports = {
   getById,
   saveTrack,
   updateTrack
-}
+};

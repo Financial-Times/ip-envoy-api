@@ -40,6 +40,36 @@ paths:
           name: trackId
           schema:
             type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Track'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        'default':
+          $ref: '#/components/responses/default'
+    patch:
+      summary: Update Track
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackUpdate'
+      tags:
+        - Track
+      description: Update Track
+      parameters:
+        - $ref: '#/components/parameters/apiKeyParam'
+        - in: path
+          name: trackId
+          schema:
+            type: integer
+          required: true
       responses:
         '200':
           description: OK
@@ -89,6 +119,15 @@ components:
         created:
           type: string
           format: date-time
+    TrackUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        descr:
+          type: string
+        statusId:
+          type: integer
   parameters:
     apiKeyParam:
       name: x-api-key
