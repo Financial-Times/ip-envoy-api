@@ -16,15 +16,33 @@ paths:
         - Track
       description: Returns a list of Tracks
       parameters:
-        - in: header
-          name: x-api-key
-          required: true
-          schema:
-            type: string
-          description: Api authorization key
+        - $ref: '#/components/parameters/apiKeyParam'
       responses:
         '200':
-          $ref: '#/components/responses/200OK'
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Track'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        'default':
+          $ref: '#/components/responses/default'
+  /track/{trackId}:
+    get:
+      summary: Returns a single Track
+      tags:
+        - Track
+      description: Returns a single Track
+      parameters:
+        - $ref: '#/components/parameters/apiKeyParam'
+        - in: path
+          name: trackId
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema: 
@@ -40,12 +58,7 @@ paths:
         - Health check
       description: Performs health check
       parameters:
-        - in: header
-          name: x-api-key
-          required: true
-          schema:
-            type: string
-          description: Api authorization key
+        - $ref: '#/components/parameters/apiKeyParam'
       responses:
         '200':
           $ref: '#/components/responses/200OK'
@@ -76,6 +89,14 @@ components:
         created:
           type: string
           format: date-time
+  parameters:
+    apiKeyParam:
+      name: x-api-key
+      in: header
+      required: true
+      schema:
+        type: string
+      description: Api authorization key
   responses:
     200OK:
       description: OK

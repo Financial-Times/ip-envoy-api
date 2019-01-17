@@ -53,6 +53,10 @@ async function updateTrack(trackId, name, descr, statusId) {
     .catch((error) => error)
 }
 
+async function getById(trackId) {
+  return trackSQL.getById(trackId);
+}
+
 module.exports = {
   start,
 
@@ -60,7 +64,7 @@ module.exports = {
   // queryLatestRevision: trackSQL.queryLatestRevision,
   // setCurrentRevById: trackSQL.setCurrentRevById,
   list: trackSQL.list,
-  // getById: trackSQL.getById,
+  getById,
   saveTrack,
   updateTrack
 }
