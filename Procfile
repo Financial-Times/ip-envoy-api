@@ -1,1 +1,1 @@
-web: npm start
+web: env ENTITY_TYPE=user npm start

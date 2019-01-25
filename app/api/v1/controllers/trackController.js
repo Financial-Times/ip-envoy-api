@@ -80,10 +80,10 @@ async function list(req, res, next) {
 }
 
 async function getById(req, res, next) {
+  const { trackId } =  req.params;
   try {
-    const { trackId } =  req.params;
     const track = await core.track.getById(trackId)
-    return res.status(200).json({ track });
+    return res.status(200).json({ data: track });
   } catch (e) {
     return next(e);
   }
