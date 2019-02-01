@@ -1,18 +1,30 @@
 const express = require("express");
+const bodyParser = require('body-parser');
+const multer = require("multer");
+
+const upload = multer({ dest: "tmp/csv/" });
 
 const {
-  getById,
+  listTracks,
+  getTrackById,
   updateTrack,
-  getLatestRevision
+  createTrack,
+  getTrackLatestRevision
 } = require("../controllers/trackController");
 
 const router = express.Router();
+
+router
+  .route("/")
+  .get(listTracks);
+router
+  .use(upload.single("file"))
+  .route("/upload")
+  .post(createTrack);
 router
   .route("/:trackId")
-  .get(getById)
+  .get(getTrackById)
   .patch(updateTrack);
-
-// .post(postControllers);
-router.route("/:trackId/latestRevision").get(getLatestRevision);
+router.route("/:trackId/latestRevision").get(getTrackLatestRevision);
 
 module.exports = router;

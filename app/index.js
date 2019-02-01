@@ -12,11 +12,7 @@ const API_VERSION = "v1";
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-console.log('------------------------------- ', process.env.ENTITY_TYPE)
-console.log('------------------------------- ', process.env.ENTITY_TYPE)
-console.log('------------------------------- ', process.env.ENTITY_TYPE)
-console.log('------------------------------- ', process.env.ENTITY_TYPE)
-console.log('------------------------------- ', process.env.ENTITY_TYPE)
+
 // Swagger UI settings.
 const options = { explorer: true };
 app.use(

@@ -6,7 +6,6 @@ module.exports = {
     connection: `${process.env.DATABASE_URL}?ssl=true`,
   },
   development: {
-    //debug: true,
     client,
     connection: {
       host: process.env.DB_HOST,

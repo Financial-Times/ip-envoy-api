@@ -4,7 +4,7 @@ info:
   description: Envoy API V1
   version: 0.0.1
 servers:
-  - url: http://localhost:3000/api/v1
+  - url: http://localhost:5000/api/v1
     description: Development server
   - url: https://ip-envoy-api.herokuapp.com/api/v1
     description: Production server
@@ -17,6 +17,36 @@ paths:
       description: Returns a list of Tracks
       parameters:
         - $ref: '#/components/parameters/apiKeyParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Track'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        'default':
+          $ref: '#/components/responses/default'
+  /track:
+    post:
+      summary: Creates new Track
+      tags:
+        - Track
+      description: Creates new Track
+      parameters:
+        - $ref: '#/components/parameters/apiKeyParam'
+        - in: path
+          name: trackId
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
       responses:
         '200':
           description: OK

@@ -1,88 +1,57 @@
+const csv = require("fast-csv");
+
 const core = require("../../../core");
-const logger = require("../../../logger");
+const { connect } = require("../../../db/connect");
+const lucidChart = require("../../../db/import/lucidChart");
 
-async function setCurrentRev(req, res, next) {
+async function listTracks(req, res, next) {
   try {
-    if (!req.body.setCurrentTrackRev || isNaN(req.body.setCurrentTrackRev)) {
-      return next();
-    }
+    const userTracks = await core.track.list('user');
+    const anonTracks = await core.track.list('anon');
+    const tracks = [...userTracks, ...anonTracks];
 
-    if (req.body.setCurrentTrackRev === "") {
-      // set to latest version
-      const rs = await core.track.queryLatestRevision(req.params.trackId);
-
-      await core.track.setCurrentRevById(
-        req.params.trackId,
-        rs.rows[0].trackRevId
-      );
-
-      res.status(200).json({
-        trackId: req.params.trackId,
-        newCurrentTrackRev: rs.rows[0].trackRevId,
-        result: `Current track revision for track ${
-          req.params.trackId
-        } set to ${rs.rows[0].trackRevId}`
-      });
-    }
-
-    await core.track.setCurrentRevById(
-      req.params.trackId,
-      req.body.setCurrentTrackRev
-    );
-    res.status(200).json({
-      trackId: req.params.trackId,
-      newCurrentTrackRev: req.body.setCurrentTrackRev,
-      result: `Current track revision for track ${req.params.trackId} set to ${
-        req.body.setCurrentTrackRev
-      }`
+    return res.status(200).json({
+      data: tracks
     });
-    return next();
   } catch (e) {
     return next(e);
   }
 }
 
-async function action(req, res, next) {
-  try {
-    if (!req.body.action) {
-      return next();
-    }
-    if (!req.params.trackId) {
-      return next(new Error("No trackId has been given"));
-    }
-    if (req.body.action === "start") {
-      const err = await core.track.start(req.params.trackId);
-      if (err) {
-        return next(err);
+async function createTrack(req, res, next) {
+  const { preParser, dbBuilder } = lucidChart();
+  const { file: { path } } = req;
+  const { entityType, active} = req.body;
+
+  csv
+    .fromPath(path, { headers: true })
+    .on("data", data => {
+      preParser.have(data);
+    })
+    .on("error", e => {
+      return next(e);
+    })
+    .on("end", async () => {
+      try {
+        // TODO: review this if else statement,
+        if (await preParser.prepare(connect('user'))) {
+          await dbBuilder.make(preParser.lucidCollectionPreped, connect('user'));
+        }
+
+        const lastTrack = await core.track.getLast(entityType);
+        return res.status(200).json({
+          data: lastTrack
+        });
+      } catch (e) {
+        return next(e);
       }
-    }
-    if (req.body.action === "update") {
-      // pass
-    }
-    res.status(200).json({
-      result: "ok"
     });
-    return next();
-  } catch (e) {
-    return next(e);
-  }
 }
 
-async function list(req, res, next) {
+async function getTrackById(req, res, next) {
+  const { trackId } = req.params;
   try {
-    res.status(200).json({
-      tracks: await core.track.list()
-    });
-    next();
-  } catch (e) {
-    return next(e);
-  }
-}
-
-async function getById(req, res, next) {
-  const { trackId } =  req.params;
-  try {
-    const track = await core.track.getById(trackId)
+    const track = await core.track.getById(trackId);
     return res.status(200).json({ data: track });
   } catch (e) {
     return next(e);
@@ -91,13 +60,14 @@ async function getById(req, res, next) {
 
 async function updateTrack(req, res, next) {
   const { trackId } = req.params;
-  const { name, descr, statusId } = req.body;
+  const { name, descr, trackStatusId, entityType } = req.body;
   try {
     const updatedTrack = await core.track.updateTrack(
       trackId,
       name,
       descr,
-      statusId
+      trackStatusId,
+      entityType
     );
     return res.status(200).json({
       data: updatedTrack
@@ -107,7 +77,7 @@ async function updateTrack(req, res, next) {
   }
 }
 
-async function getLatestRevision(req, res, next) {
+async function getTrackLatestRevision(req, res, next) {
   const { trackId } = req.params;
   try {
     const latestRevision = await core.track.queryLatestRevision(trackId);
@@ -120,10 +90,9 @@ async function getLatestRevision(req, res, next) {
 }
 
 module.exports = {
-  list,
-  getById,
-  getLatestRevision,
+  listTracks,
+  getTrackById,
+  createTrack,
   updateTrack,
-  setCurrentRev,
-  action
+  getTrackLatestRevision
 };
