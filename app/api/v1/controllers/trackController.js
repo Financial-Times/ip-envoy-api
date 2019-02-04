@@ -9,8 +9,7 @@ const unlink = util.promisify(fs.unlink); // TODO: implement the best strategy f
 
 async function listTracks(req, res, next) {
   try {
-    //const userTracks = await core.track.list('user');
-    const userTracks = [];
+    const userTracks = await core.track.list('user');
     const anonTracks = await core.track.list('anon');
     const tracks = [...userTracks, ...anonTracks];
 
