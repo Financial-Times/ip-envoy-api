@@ -1,0 +1,20 @@
+Id,Name,Shape Library,Page ID,Contained By,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1,Text Area 2,channelid,channeltypeid,days,descr,entitytypename,name,parsername,rulesetid,silotypeid,silotypetext,type
+1,Page,,,,,,,,Avios-2,,,,,,,,,,,,
+2,Table,Tables,1,,,,,,Department,MA Dev Test - Marketing Automation Developer Test,,,,Marketing Automation Developer Test,,MA Dev Test,test1,,,,Department
+3,Text,Default,1,,,,,,MA Rules Engine DB population worksheet,,,,,,,,,,,,
+4,Campaign Container,Flowchart Shapes,1,,,,,,avios-promo-v2,,,,,Change these fields to name of campaign,,Default Campaign,,,,,campaignContainer
+5,Swim Lane,Flowchart Shapes,1,4,,,,,avios-promo-v2,,,,,avios-promo-v2,user,avios-promo-v2,,,,,trackContainer
+6,Silo - Source,Geometric Shapes,1,4:1|5:1,,,,,Silo - Source,,,,,,,,,,1,Source,Silo
+7,Silo - Drain,Geometric Shapes,1,4:1|5:1,,,,,Silo - Shelve,,,,,,,,,,3,Stage,Silo
+8,RuleSet,Geometric Shapes,1,4:1|5:1,,,,,avios-signup,,,,,,,avios-signup,,46,,,RuleSet
+9,RuleSet,Geometric Shapes,1,4:1|5:1,,,,,subscription-cancelled,,,,,,,subscription-cancelled,,,,,RuleSet
+10,Channel,Geometric Shapes,1,4:1|5:1,,,,,Avios Records,,13,7,,,,Avios Records,,,,,Channel
+11,Silo - Source,Geometric Shapes,1,4:1|5:1,,,,,Silo - Stage 1,,,,,,,,,,2,Stage 1,Silo
+12,RuleSet,Geometric Shapes,1,4:1|5:1,,,,,delay,,,,15,,,delay,,,,,RuleSet
+13,Line,,1,,8,6,None,Arrow,,,,,,,,,,,,,
+14,Line,,1,,6,12,None,Arrow,,,,,,,,,,,,,
+15,Line,,1,,6,9,None,Arrow,,,,,,,,,,,,,
+16,Line,,1,,9,7,None,Arrow,,,,,,,,,,,,,
+17,Line,,1,,12,11,None,Arrow,,,,,,,,,,,,,
+18,Line,,1,,11,7,None,Arrow,,,,,,,,,,,,,
+19,Line,,1,,11,10,None,Arrow,,,,,,,,,,,,,
