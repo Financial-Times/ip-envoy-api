@@ -936,6 +936,18 @@ module.exports = () => {
           // record exists, so return id
           dbTrackId = res1[0].trackId;
         } else {
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
+          console.log(track.entityTypeName)
           dbTrackId = (await this.knexConnectionAsync
             .insert(
               [
