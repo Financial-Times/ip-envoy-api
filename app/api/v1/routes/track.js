@@ -1,5 +1,5 @@
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const multer = require("multer");
 
 const upload = multer({ dest: "tmp/csv/" });
@@ -14,9 +14,7 @@ const {
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(listTracks);
+router.route("/").get(listTracks);
 router
   .use(upload.single("file"))
   .route("/upload")
