@@ -11,6 +11,11 @@ const connections = {};
 for (const dbConfig of dbConfigList) {
   let connConfig
 
+  if (dbConfig.name === 'user') {
+    connections.user = null;
+    continue;
+  }
+
   if (process.env.NODE_ENV === 'production') {
     connConfig = dbConfig['conf']['production']
   } else if (process.env.NODE_ENV === 'development') {
