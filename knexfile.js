@@ -6,18 +6,7 @@ module.exports = {
     connection: `${process.env.DATABASE_URL}?ssl=true`,
   },
   development: {
-    //debug: true,
     client,
-    connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      multipleStatements: true
-    },
-    pool: {
-      min: 0,
-      max: 7
-    }
+    connection: `${process.env.DATABASE_URL}`,
   }
 }

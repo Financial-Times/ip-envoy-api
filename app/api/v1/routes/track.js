@@ -8,8 +8,7 @@ const {
   listTracks,
   getTrackById,
   updateTrack,
-  createTrack,
-  getTrackLatestRevision
+  createTrack
 } = require("../controllers/trackController");
 
 const router = express.Router();
@@ -23,6 +22,5 @@ router
   .route("/:trackId")
   .get(getTrackById)
   .patch(updateTrack);
-router.route("/:trackId/latestRevision").get(getTrackLatestRevision);
 
 module.exports = router;
