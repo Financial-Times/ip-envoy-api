@@ -1,8 +1,11 @@
+const util = require("util");
+const fs = require("fs");
 const csv = require("fast-csv");
 
 const core = require("../../../core");
 const { connect } = require("../../../db/connect");
 const lucidChart = require("../../../db/import/lucidChart");
+const unlink = util.promisify(fs.unlink); // TODO: implement the best strategy for removing the file.
 
 async function listTracks(req, res, next) {
   try {
@@ -34,8 +37,8 @@ async function createTrack(req, res, next) {
     .on("end", async () => {
       try {
         // TODO: review this if else statement,
-        if (await preParser.prepare(connect('user'))) {
-          await dbBuilder.make(preParser.lucidCollectionPreped, connect('user'));
+        if (await preParser.prepare(connect(entityType))) {
+          await dbBuilder.make(preParser.lucidCollectionPreped, connect(entityType));
         }
 
         const lastTrack = await core.track.getLast(entityType);
@@ -77,22 +80,9 @@ async function updateTrack(req, res, next) {
   }
 }
 
-async function getTrackLatestRevision(req, res, next) {
-  const { trackId } = req.params;
-  try {
-    const latestRevision = await core.track.queryLatestRevision(trackId);
-    return res.status(200).json({
-      data: latestRevision
-    });
-  } catch (e) {
-    return next(e);
-  }
-}
-
 module.exports = {
   listTracks,
   getTrackById,
   createTrack,
-  updateTrack,
-  getTrackLatestRevision
+  updateTrack
 };

@@ -1,0 +1,38 @@
+Id,Name,Shape Library,Page ID,Contained By,Group,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1,Text Area 2,config,descr,entitytypename,hours,max,min,name,parsername,ruleparams,silotypeid,silotypetext,type,voltquery
+1,Page,,,,,,,,,book-your-consult,,,,,,,,,,,,,,
+2,Table,Tables,1,,,,,,,Department,MA Dev Test - Marketing Automation Developer Test,,Marketing Automation Developer Test,,,,,MA Dev Test,test1,,,,Department,
+3,Campaign Container,Flowchart Shapes,1,,,,,,,bookYourConsult,,,bookYourConsult_v3,,,,,bookYourConsult_v3,,,,,campaignContainer,
+4,User Journey Container,Flowchart Shapes,1,3,,,,,,bookYourConsult,,,bookYourConsult_v3,user,,,,bookYourConsult_v3,,,,,trackContainer,
+5,RuleSet,Geometric Shapes,1,3:1|4:1,,,,,,Rule Set: 127,,,,,,,,book-your-consult,,"{""action"":""delivery""}",,,RuleSet,
+6,Silo - Source,Geometric Shapes,1,3:1|4:1,,,,,,Source,,,,,,,,,,,1,Source,Silo,
+7,Silo - Shelve,Geometric Shapes,1,3:1|4:1,,,,,,Shelve,,,,,,,,,,,3,Shelve,Silo,
+8,Silo - Stage,Geometric Shapes,1,3:1|4:1,,,,,,Stage 1,,,,,,,,,,,2,Stage,Silo,
+9,Channel,Geometric Shapes,1,3:1|4:1,,,,,,Create Onsite Message,,"[""service"", ""bookYourConsult"", """", 1, 0]",,,,,,Create Onsite Message,,,,,Channel,
+10,Silo - Stage,Geometric Shapes,1,3:1|4:1,,,,,,Stage 2,,,,,,,,,,,2,Stage,Silo,
+11,Channel,Geometric Shapes,1,3:1|4:1,,,,,,Delete Onsite Message,,"[""bookYourConsult""]",,,,,,Delete Onsite Message,,,,,Channel,
+12,RuleSet,Geometric Shapes,1,3:1|4:1,,,,,,Rue Set: 122 View OSM 3X,,,,,,,,component-action-count,,"{""action"":""view"",""messageId"":""bookYourConsult"", ""count"": ""3""}",,,RuleSet,
+13,RuleSet,Geometric Shapes,1,3:1|4:1,,,,,,Rule Set: 108 Close OSM,,,,,,,,component-action,,"{""action"":""close"",""messageId"":""bookYourConsult""}",,,RuleSet,
+14,RuleSet,Geometric Shapes,1,3:1|4:1,,,,,,Rule Set: 108 Book consultation OSM,,,,,,,,component-action,,"{""action"":""act"",""messageId"":""bookYourConsult""}",,,RuleSet,
+15,Silo - Drain,Geometric Shapes,1,3:1|4:1,,,,,,Drain,,,,,,,,,,,4,Drain,Silo,
+16,RuleSet,Geometric Shapes,1,3:1|4:1,,,,,,Rute Set: 131 Book consultation Email,,,,,,,,email-action-book-your-consult,,"{""action"":""click""}",,,RuleSet,
+17,RuleSet,Geometric Shapes,1,3:1|4:1,,,,,, seeded-split,,,,,,100,10,seeded-split,,,,,RuleSet,
+18,RuleSet,Geometric Shapes,1,3:1|4:1,,,,,," delay
+48
+hours",,,,,48,,,delay,,,,,RuleSet,
+19,Line,,1,,,6,17,None,Arrow,,,,,,,,,,,,,,,
+20,Line,,1,,,17,7,None,Arrow,no,,,,,,,,,,,,,,
+21,Line,,1,,,8,9,None,Arrow,,,,,,,,,,,,,,,
+22,Line,,1,,,8,13,None,Arrow,,,,,,,,,,,,,,,
+23,Line,,1,,,8,12,None,Arrow,,,,,,,,,,,,,,,
+24,Line,,1,,,8,14,None,Arrow,,,,,,,,,,,,,,,
+25,Line,,1,,,13,10,None,Arrow,,,,,,,,,,,,,,,
+26,Line,,1,,,10,11,None,Arrow,,,,,,,,,,,,,,,
+27,Line,,1,,,12,10,None,Arrow,,,,,,,,,,,,,,,
+28,Line,,1,,,14,10,None,Arrow,,,,,,,,,,,,,,,
+29,Line,,1,,,5,6,None,Arrow,,,,,,,,,,,,,,,
+30,Line,,1,,,10,15,None,Arrow,,,,,,,,,,,,,,,
+31,Line,,1,,,17,8,None,Arrow,yes,,,,,,,,,,,,,,
+32,Line,,1,,,8,16,None,Arrow,,,,,,,,,,,,,,,
+33,Line,,1,,,16,10,None,Arrow,,,,,,,,,,,,,,,
+34,Line,,1,,,8,18,None,Arrow,,,,,,,,,,,,,,,
+35,Line,,1,,,18,10,None,Arrow,,,,,,,,,,,,,,,

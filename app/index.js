@@ -44,7 +44,8 @@ process.on("unhandledRejection", (reason, promise) =>
   logger.error("unhandled promise rejection:", reason.message || reason)
 );
 
-app.listen(process.env.PORT, err => {
+const port = process.env.PORT;
+app.listen(port, err => {
   if (err) throw err;
-  logger.info(`Server started on port ${port}`)
+  logger.info(`Server started on port ${port}`);
 });
