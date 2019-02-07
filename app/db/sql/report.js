@@ -6,8 +6,8 @@ async function getTrack({ trackId, entityType }) {
   SELECT es."siloId", silo."name", silo."descr", st."name" AS "siloTypeName", COUNT(es."entityId") AS "entityCount",
   date_trunc('second', MIN(es.created)) AS "Oldest Landing",
   date_trunc('second', MAX(es.created)) AS "Most recent Landing",
-  to_char(justify_interval(date_trunc('second', age(CURRENT_TIMESTAMP, MIN(es.created)))), 'HH24:MI:SS') AS "Longest Dwell",
-  to_char(justify_interval(date_trunc('second', age(CURRENT_TIMESTAMP, MAX(es.created)))), 'HH24:MI:SS') AS "Shortest Dwell"
+  justify_interval(date_trunc('second', age(CURRENT_TIMESTAMP, MIN(es.created)))) AS "Longest Dwell",
+  justify_interval(date_trunc('second', age(CURRENT_TIMESTAMP, MAX(es.created)))) AS "Shortest Dwell"
   FROM core."entity_silo" AS es
   LEFT JOIN core."entity_silo" AS esx
   ON esx."parent_entity_silo_id" = es."entity_silo_id"
