@@ -4,8 +4,10 @@ async function list(entityType, statusIds = [1, 2, 3, 4, 5]) {
   const ids = statusIds.join(","); // needed due to knex weirdness
   const knex = connect(entityType);
   const res = await knex.raw(`
-    SELECT * FROM "core"."track"
-    WHERE "track"."trackStatusId" IN (${ids})
+    SELECT t.*, tr.created FROM "core"."track" t
+    INNER JOIN "core"."trackRev" tr
+    ON t."trackId" = tr."trackId"
+    WHERE "t"."trackStatusId" IN (${ids})
   `);
   return res.rows;
 }
@@ -13,8 +15,10 @@ async function list(entityType, statusIds = [1, 2, 3, 4, 5]) {
 async function getById(trackId, entityType) {
   const knex = connect(entityType);
   const res = await knex.raw(`
-    SELECT * FROM "core"."track"
-    WHERE "trackId" = ?
+    SELECT * FROM "core"."track" t
+    INNER JOIN "core"."trackRev" tr
+    ON t."trackId" = tr."trackId"
+    WHERE t."trackId" = ?
   `, trackId);
   return res.rows[0];
 }
@@ -22,8 +26,10 @@ async function getById(trackId, entityType) {
 async function getLast(entityType) {
   const knex = connect(entityType);
   const res = await knex.raw(`
-    SELECT * FROM "core"."track"
-    ORDER BY "trackId" DESC LIMIT 1
+    SELECT * FROM "core"."track" t
+    INNER JOIN "core"."trackRev" tr
+    ON t."trackId" = tr."trackId"
+    ORDER BY t."trackId" DESC LIMIT 1
   `);
   return res.rows[0];
 }
