@@ -3,7 +3,7 @@ const core = require("../../../core");
 async function getEntityCountForTrackSilos(req, res, next) {
   const { trackId, entityType } = req.query;
   try {
-    const report = await core.report.getTrack({ trackId, entityType });
+    const report = await core.report.getEntityCountForTrackSilos({ trackId, entityType });
     return res.status(200).json({
       data: report
     });
