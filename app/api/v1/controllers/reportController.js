@@ -28,7 +28,7 @@ async function getVisitedTrackSilosForEntity(req, res, next) {
 async function getEntitiesForSilo(req, res, next) {
   const { siloId, entityType, page = 1, size = 50 } = req.query;
   try {
-    const report = await core.report.getEntitiesForSilo({ siloId, entityType, page, size });
+    const report = await core.report.getEntitiesForSilo({ siloId, entityType, page: page - 1, size });
     return res.status(200).json({
       data: report
     });

@@ -84,7 +84,7 @@ async function getEntitiesForSilo({ siloId, entityType, page, size }) {
     LEFT JOIN core."entity_silo" AS esx
     ON esx."parent_entity_silo_id" = es."entity_silo_id"
     WHERE esx."parent_entity_silo_id" IS NULL
-    AND es."siloId" = ${siloId};
+    AND es."siloId" = ${siloId} LIMIT ${size} OFFSET ${page};
   `;
   const res = await knex.raw(query);
   return res.rows;
