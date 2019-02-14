@@ -73,9 +73,7 @@ async function getEntitiesForSiloCount({ siloId, entityType }) {
     AND es."siloId" = ${siloId};
   `;
   const res = await knex.raw(query);
-  console.log('-----------------')
-  console.log(res)
-  return res;
+  return res.rows[0].count;
 }
 
 async function getEntitiesForSilo({ siloId, entityType, page, size }) {
