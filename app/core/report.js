@@ -8,7 +8,12 @@ async function getVisitedTrackSilosForEntity(params) {
   return reportSQL.getVisitedTrackSilosForEntity(params);
 }
 
+async function getEntitiesForSilo(params) {
+  return reportSQL.getEntitiesForSilo(params);
+}
+
 module.exports = {
   getEntityCountForTrackSilos,
-  getVisitedTrackSilosForEntity
+  getVisitedTrackSilosForEntity,
+  getEntitiesForSilo
 };
