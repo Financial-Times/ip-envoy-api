@@ -11,7 +11,7 @@ async function getVisitedTrackSilosForEntity(params) {
 async function getEntitiesForSilo(params) {
   const res1 = await reportSQL.getEntitiesForSiloCount(params);
   const res2 = await reportSQL.getEntitiesForSilo(params);
-  return { data: { count: res1, data: res2 } }
+  return { count: res1, rows: res2 };
 }
 
 module.exports = {
