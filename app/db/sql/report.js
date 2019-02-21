@@ -1,8 +1,8 @@
 const { connect } = require("../connect");
 
-async function getEntityCountForTrackSilos({ trackId, entityType }) {
+async function getEntityCountForTrackSilos({ trackId, trackName, entityType }) {
   const knex = connect(entityType);
-  const query = `
+  let query = `
     SELECT es."siloId", silo."name", silo."descr", st."name" AS "siloTypeName", COUNT(es."entityId") AS "entityCount",
     date_trunc('second', MIN(es.created)) AS "Oldest Landing",
     date_trunc('second', MAX(es.created)) AS "Most recent Landing",
@@ -25,12 +25,17 @@ async function getEntityCountForTrackSilos({ trackId, entityType }) {
     ON "campaign"."campaignId" = "campaignRev"."campaignId"
     WHERE esx."parent_entity_silo_id" IS NULL
     AND tr."deleted" IS NULL
-    AND "campaignRev"."deleted" IS NULL
-    AND tr."trackRevId" = ${trackId}
-    GROUP BY es."siloId", silo."name", silo."descr", t."name", t."descr", st."name", "campaign"."name"
-    ORDER BY "campaign"."name", t."name", es."siloId";
+    AND "campaignRev"."deleted" IS NULL `;
+    if (trackId) {
+      query += `AND tr."trackRevId" = ${trackId} `;
+    } else {
+      query += `AND t."name" = '${trackName}' `;
+    }
+    query += `GROUP BY es."siloId", silo."name", silo."descr", t."name", t."descr", st."name", "campaign"."name"
+      ORDER BY "campaign"."name", t."name", es."siloId";
   `;
   const res = await knex.raw(query);
+  console.log(res.rows);
   return res.rows;
 }
 
