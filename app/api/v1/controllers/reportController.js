@@ -14,9 +14,9 @@ async function getEntityCountForTrackSilos(req, res, next) {
 }
 
 async function getVisitedTrackSilosForEntity(req, res, next) {
-  const { entityId, trackId, entityType } = req.query;
+  const { entityId, trackId, trackName, entityType } = req.query;
   try {
-    const report = await core.report.getVisitedTrackSilosForEntity({ entityId, trackId, entityType });
+    const report = await core.report.getVisitedTrackSilosForEntity({ entityId, trackId, trackName, entityType });
     return res.status(200).json({
       data: report
     });

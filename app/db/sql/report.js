@@ -26,12 +26,12 @@ async function getEntityCountForTrackSilos({ trackId, trackName, entityType }) {
     WHERE esx."parent_entity_silo_id" IS NULL
     AND tr."deleted" IS NULL
     AND "campaignRev"."deleted" IS NULL `;
-    if (trackId) {
-      query += `AND tr."trackRevId" = ${trackId} `;
-    } else {
-      query += `AND t."name" = '${trackName}' `;
-    }
-    query += `GROUP BY es."siloId", silo."name", silo."descr", t."name", t."descr", st."name", "campaign"."name"
+  if (trackId) {
+    query += `AND tr."trackRevId" = ${trackId} `;
+  } else {
+    query += `AND t."name" = '${trackName}' `;
+  }
+  query += `GROUP BY es."siloId", silo."name", silo."descr", t."name", t."descr", st."name", "campaign"."name"
       ORDER BY "campaign"."name", t."name", es."siloId";
   `;
   const res = await knex.raw(query);
@@ -39,9 +39,14 @@ async function getEntityCountForTrackSilos({ trackId, trackName, entityType }) {
   return res.rows;
 }
 
-async function getVisitedTrackSilosForEntity({ entityId, trackId, entityType }) {
+async function getVisitedTrackSilosForEntity({
+  entityId,
+  trackId,
+  trackName,
+  entityType
+}) {
   const knex = connect(entityType);
-  const query = `
+  let query = `
     SELECT "entityId", es."created" AS "timestamp", es."siloId", es."lastStepId", t.name AS "trackName", s.name, s.descr,
     justify_interval(date_trunc('second', age(es."created",
     (
@@ -58,11 +63,14 @@ async function getVisitedTrackSilosForEntity({ entityId, trackId, entityType }) 
     INNER JOIN core."trackRev" AS tr
     ON tr."trackRevId" = s."trackRevId"
     INNER JOIN core."track" AS t
-    ON t."trackId" = tr."trackRevId"  
-    WHERE "entityId" = '${entityId}'
-    AND s."trackRevId" = ${trackId}
-    ORDER BY "entityId", es."created";
-  `;
+    ON t."trackId" = tr."trackRevId"
+    WHERE "entityId" = '${entityId}' `;
+  if (trackId) {
+    query += `AND s."trackRevId" = ${trackId} `;
+  } else {
+    query += `AND t."name" = '${trackName}' `;
+  }
+  query += `ORDER BY "entityId", es."created";`;
   const res = await knex.raw(query);
   return res.rows;
 }
