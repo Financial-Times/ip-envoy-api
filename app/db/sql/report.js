@@ -47,7 +47,8 @@ async function getVisitedTrackSilosForEntity({
 }) {
   const knex = connect(entityType);
   let query = `
-    SELECT "entityId", es."created" AS "timestamp", es."siloId", es."lastStepId", rs.name AS ruleSetName, t.name AS "trackName", s.name, s.descr,
+    SELECT "entityId", es."created" AS "timestamp", es."siloId", es."lastStepId", 
+    rs.name AS ruleSetName, rs.descr AS ruleSetDescr, t.name AS "trackName", s.name, s.descr,
     justify_interval(date_trunc('second', age(es."created",
     (
       SELECT MIN(created)
@@ -69,11 +70,11 @@ async function getVisitedTrackSilosForEntity({
     INNER JOIN core."track" AS t
     ON t."trackId" = tr."trackRevId"
       WHERE "entityId" = '${entityId}' `;
-    if (trackId) {
-      query += `AND s."trackRevId" = ${trackId} `;
-    } else {
-      query += `AND t."name" = '${trackName}' `;
-    }
+  if (trackId) {
+    query += `AND s."trackRevId" = ${trackId} `;
+  } else {
+    query += `AND t."name" = '${trackName}' `;
+  }
   query += `ORDER BY "entityId", es."created";`;
   const res = await knex.raw(query);
   return res.rows;
