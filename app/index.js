@@ -7,6 +7,17 @@ const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const logger = require("./logger");
 
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+console.log(process.env.ENTITY_TYPE)
+
 const app = express();
 const API_VERSION = "v1";
 
