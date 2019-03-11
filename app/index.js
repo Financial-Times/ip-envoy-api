@@ -7,16 +7,36 @@ const YAML = require("yamljs");
 const swaggerDocument = YAML.load("./swagger.yaml");
 const logger = require("./logger");
 
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
-console.log(process.env.ENTITY_TYPE)
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
+if (process.env.ENTITY_TYPE === 'user') {
+  console.log("sababa")
+}
 
 const app = express();
 const API_VERSION = "v1";
