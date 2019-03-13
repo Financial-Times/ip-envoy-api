@@ -71,7 +71,14 @@ const health = new HealthCheck({
 
 async function healthCheck(req, res, next) {
   try {
-    const result = await health.toJSON();
+    const checks = await health.toJSON();
+    const result = res.json({
+      schemaVersion: 1,
+      systemCode: 'ip-envoy-api',
+      name: 'IP Envoy API',
+      description: 'Experimental Envoy API with Swagger',
+      checks: checks
+    });
     return res.send(result);
   } catch (e) {
     return next(e);
