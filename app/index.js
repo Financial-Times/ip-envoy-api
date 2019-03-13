@@ -10,33 +10,6 @@ const logger = require("./logger");
 if (process.env.ENTITY_TYPE === 'user') {
   console.log("sababa")
 }
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
-if (process.env.ENTITY_TYPE === 'user') {
-  console.log("sababa")
-}
 
 const app = express();
 const API_VERSION = "v1";
@@ -52,6 +25,9 @@ app.use(
   swaggerUi.setup(swaggerDocument, options)
 );
 
+// API public routes Settings.
+app.use(`/api/${API_VERSION}`, require(`./api/${API_VERSION}/public`));
+
 // API key middleware.
 app.use((req, res, next) => {
   const header = req.get("x-api-key");
@@ -61,7 +37,7 @@ app.use((req, res, next) => {
   return next();
 });
 
-// API routes Settings.
+// API private routes Settings.
 app.use(`/api/${API_VERSION}`, require(`./api/${API_VERSION}/routes`));
 
 // Handle global uncaught async errors.

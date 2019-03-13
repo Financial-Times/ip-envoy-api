@@ -39,7 +39,7 @@ const health = new HealthCheck({
     {
       type: "graphite-threshold",
       url:
-        "https://graphitev2-api.ft.com/render/?from=-5minutes&target=summarize(internalproducts.heroku.ip-envoy.web_1.cron.treeshake.count,%20%225minutes%22,%20%22max%22,%20true)&format=json",
+        "https://graphitev2-api.ft.com/render/?from=-5minutes&target=summarize(transformNull(internalproducts.heroku.ip-envoy.cron_1.cron.treeshake.count),%20%225minutes%22,%20%22max%22,%20true)&format=json",
       interval: 300000,
       threshold: 0,
       direction: "above",
@@ -54,7 +54,7 @@ const health = new HealthCheck({
     {
       type: "graphite-threshold",
       url:
-        "https://graphitev2-api.ft.com/render/?from=-1minutes&target=summarize(transformNull(internalproducts.heroku.ip-envoy.web_1.cron.moveentities.run%2C0)%2C%221minutes%22%2C%20%22min%22%2C%20true)&format=json",
+        "https://graphitev2-api.ft.com/render/?from=-1minutes&target=summarize(transformNull(internalproducts.heroku.ip-envoy.cron_1.cron.moveentities.run%2C0)%2C%221minutes%22%2C%20%22min%22%2C%20true)&format=json",
       interval: 300000,
       threshold: 1,
       direction: "below",
