@@ -26,7 +26,6 @@ class AggregateHealthCheck extends HealthCheck.Check {
             // check if response array is null
 
             if (data.length === 0) {
-                console.log('no fails: ' + this.options.url)
                 this.ok = true;
                 this.checkOutput = '';
             }
@@ -40,11 +39,7 @@ class AggregateHealthCheck extends HealthCheck.Check {
                     array.push(object.datapoints[0][0])
                 })
 
-                const sum = (accumulator, currentIndex) => {
-                    return (accumulator + currentIndex);
-                }
-
-                const total = array.reduce(sum)
+                const total = array.reduce((accumulator, currentIndex) => accumulator + currentIndex);
 
                 const average = total / data.length;
 
