@@ -37,5 +37,6 @@
   },
   "engines": {
     "node": "^10.15.3"
-  }
+  },
+  "heroku-run-build-script": true
 }
