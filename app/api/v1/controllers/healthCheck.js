@@ -4,18 +4,53 @@ const AggregateHealthCheck = require("../../../middleware/healthchecks/customHea
 // Set vars here
 const envoyEventsThreshold = 10; // 10 events per 5 minutes
 const envoyEventAgeThreshold = 1000; // 1 second
-const timeSpan = '5days'
+const timeSpan = '5mins'
 
 const health = new HealthCheck({
   checks: [
     new AggregateHealthCheck({
       timeSpan: `${timeSpan}`,
-      url1: "https://graphitev2-api.ft.com/render/?from=-5mina&target=summarize(transformNull(internalproducts.heroku.ip-envoy.cron_1.fetch.topicsapi.failure),%20%225mins%22,%20%22sum%22,%20true)&format=json",
-      url2: "https://graphitev2-api.ft.com/render/?from=-5mins&target=summarize(transformNull(internalproducts.heroku.ip-envoy.worker_1.fetch.topicsapi.failure),%20%225mins%22,%20%22sum%22,%20true)&format=json",
+      url: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.*.fetch.volt.*.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
+      graphiteKey: process.env.FT_GRAPHITE_KEY,
+			interval: 300000,
+			id: 'aggregate-volt-fetch-failures',
+			name: 'API calls to Volt',
+			severity: 1,
+			businessImpact: 'There have been failed API calls to Volt DB.',
+			technicalSummary: 'There have been failed API calls to Volt DB.',
+			panicGuide: 'Check why there have been failed API calls to Volt DB.'
+		}),
+    new AggregateHealthCheck({
+      timeSpan: `${timeSpan}`,
+      url: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.*.fetch.userrecsapi.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
+      graphiteKey: process.env.FT_GRAPHITE_KEY,
+			interval: 300000,
+			id: 'aggregate-userrecsapi-fetch-failures',
+			name: 'API calls to User Recs API',
+			severity: 1,
+			businessImpact: 'There have been failed API calls to the User Recs API.',
+			technicalSummary: 'There have been failed API calls to the User Recs API.',
+			panicGuide: 'Check why there have been failed API calls to the User Recs API.'
+		}),
+    new AggregateHealthCheck({
+      timeSpan: `${timeSpan}`,
+      url: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.*.fetch.interceptorsvchost.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
+      graphiteKey: process.env.FT_GRAPHITE_KEY,
+			interval: 300000,
+			id: 'aggregate-interceptorsvchost-fetch-failures',
+			name: 'API calls to Interceptor SVC Host',
+			severity: 1,
+			businessImpact: 'There have been failed API calls to the Interceptor SVC Host.',
+			technicalSummary: 'There have been failed API calls to the Interceptor SVC Host.',
+			panicGuide: 'Check why there have been failed API calls to the Interceptor SVC Host.'
+		}),
+    new AggregateHealthCheck({
+      timeSpan: `${timeSpan}`,
+      url: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.*.fetch.topicsapi.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
       graphiteKey: process.env.FT_GRAPHITE_KEY,
 			interval: 300000,
 			id: 'aggregate-topicsapi-fetch-failures',
-			name: 'API calls to Topics API failed',
+			name: 'API calls to Topics API',
 			severity: 1,
 			businessImpact: 'There have been failed API calls to the Topics API.',
 			technicalSummary: 'There have been failed API calls to the Topics API.',
@@ -23,29 +58,39 @@ const health = new HealthCheck({
 		}),
     new AggregateHealthCheck({
       timeSpan: `${timeSpan}`,
-      url1: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.cron_1.fetch.scs.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
-      url2: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.worker_1.fetch.scs.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
+      url: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.*.fetch.scs.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
       graphiteKey: process.env.FT_GRAPHITE_KEY,
 			interval: 300000,
 			id: `aggregate-scs-fetch-failures`,
-			name: `API calls to scs failed`,
+			name: `API calls to Single Consent Store`,
 			severity: 1,
-			businessImpact: `There have been failed API calls to the scs API.`,
-			technicalSummary: `There have been failed API calls to the scs API.`,
-			panicGuide: `Check why there have been failed API calls to the scs API.`
+			businessImpact: `There have been failed API calls to the Single Consent Store.`,
+			technicalSummary: `There have been failed API calls to the Single Consent Store.`,
+			panicGuide: `Check why there have been failed API calls to the Single Consent Store.`
 		}),
     new AggregateHealthCheck({
       timeSpan: `${timeSpan}`,
-      url1: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.cron_1.fetch.userslist.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
-      url2: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.worker_1.fetch.userslist.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
+      url: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.*.fetch.userslist.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
       graphiteKey: process.env.FT_GRAPHITE_KEY,
 			interval: 300000,
 			id: 'aggregate-userslist-fetch-failures',
-			name: 'API calls to Users List failed',
+			name: 'API calls to Users List',
 			severity: 1,
-			businessImpact: 'There have been failed API calls to the User\'s List API.',
-			technicalSummary: 'There have been failed API calls to the User\'s List API.',
-			panicGuide: 'Check why there have been failed API calls to the User\'s List API.'
+			businessImpact: 'There have been failed API calls to the User\'s List.',
+			technicalSummary: 'There have been failed API calls to the User\'s List.',
+			panicGuide: 'Check why there have been failed API calls to the User\'s List.'
+    }),
+    new AggregateHealthCheck({
+      timeSpan: `${timeSpan}`,
+      url: `https://graphitev2-api.ft.com/render/?from=-${timeSpan}&target=summarize(transformNull(internalproducts.heroku.ip-envoy.*.fetch.userslistsapi.failure),%20%22${timeSpan}%22,%20%22sum%22,%20true)&format=json`,
+      graphiteKey: process.env.FT_GRAPHITE_KEY,
+			interval: 300000,
+			id: 'aggregate-userslistsapi-fetch-failures',
+			name: 'API calls to Users Lists API',
+			severity: 1,
+			businessImpact: 'There have been failed API calls to the User\'s Lists API.',
+			technicalSummary: 'There have been failed API calls to the User\'s Lists API.',
+			panicGuide: 'Check why there have been failed API calls to the User\'s Lists API.'
 		}),
     {
       type: "graphite-threshold",

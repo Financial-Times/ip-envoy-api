@@ -4,8 +4,7 @@ const fetch = require('node-fetch');
 class AggregateHealthCheck extends HealthCheck.Check {
     constructor(options) {
         super(options);
-        this.url1 = options.url1
-        this.url2 = options.url2
+        this.url = options.url
         this.graphiteKey = options.graphiteKey
         this.timeSpan = options.timeSpan
     }
@@ -13,73 +12,51 @@ class AggregateHealthCheck extends HealthCheck.Check {
     async run() {
         try {
             // make call to both graphite endpoints
-            const response1 = await fetch(this.options.url1, {
-                method: 'GET',
-                headers: { key: this.options.graphiteKey }
-            });
-            const response2 = await fetch(this.options.url2, {
+            const response = await fetch(this.options.url, {
                 method: 'GET',
                 headers: { key: this.options.graphiteKey }
             });
 
-            if (response1.status !== 200 || response2.status !== 200) {
+            if (response.status !== 200) {
                 throw new Error('Non-200 response, check what is happening with the Graphite URL');
             }
 
-            if (response1.status === 200 && response2.status === 200) {
-                // check whether they are null or not (to do later)
-                let reading1 = await response1.json();
-                let reading2 = await response2.json();
+            let data = await response.json();
 
-                // if both null, return ok healthcheck
-                if (reading1.length === 0 && reading1.length === 0) {
+            // check if response array is null
+
+            if (data.length === 0) {
+                console.log('no fails: ' + this.options.url)
+                this.ok = true;
+                this.checkOutput = '';
+            }
+
+            // if not, reduce and check
+
+            else { 
+                let array = []
+
+                data.forEach((object) => {
+                    array.push(object.datapoints[0][0])
+                })
+
+                const sum = (accumulator, currentIndex) => {
+                    return (accumulator + currentIndex);
+                }
+
+                const total = array.reduce(sum)
+
+                const average = total / data.length;
+
+                if (average > 0) {
+                    this.ok = false;
+                    this.checkOutput = `${average} averaged failed API calls across ${data.length} systems in the last ${this.options.timeSpan}`;
+                } else {
                     this.ok = true;
                     this.checkOutput = '';
                 }
-                // if one is null, only return the other
-                else if (reading1.length === 0 || reading2.length === 0) {
-                    if (reading1.length === 0) {
-                        reading2 = reading2[0].datapoints[0][0]
-                        if (reading2 > 0) {
-                            this.ok = false;
-                            this.checkOutput = `${reading2} failed API calls in the last ${this.options.timeSpan}`;
-                        } else {
-                            this.ok = true;
-                            this.checkOutput = '';
-                        }
-                    }
-                    if (reading2.length === 0) {
-                        reading1 = reading1[0].datapoints[0][0]
-                        if (reading1 > 0) {
-                            this.ok = false;
-                            this.checkOutput = `${reading1} failed API calls in the last ${this.options.timeSpan}`;
-                        } else {
-                            this.ok = true;
-                            this.checkOutput = '';
-                        }
-                    }
-                }
-                // if neither are null, average the result
-                else {
-                    reading1 = reading1[0].datapoints[0][0]
-                    reading2 = reading2[0].datapoints[0][0]
-
-                    function avg(data1, data2) {
-                        return (data1 + data2) / 2
-                    }
-
-                    const average = avg(reading1, reading2);
-
-                    // if the result is above one, set off the healthcheck
-                    if (average > 0) {
-                        this.ok = false;
-                        this.checkOutput = `${average} averaged failed API calls in the last ${this.options.timeSpan}`;
-                    } else {
-                        this.ok = true;
-                        this.checkOutput = '';
-                    }
-                }
             }
+
         }
         catch (error) {
             this.log.error({ event: 'Problem with aggregate healthcheck', error: error.toString() });
