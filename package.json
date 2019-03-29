@@ -41,5 +41,11 @@
   },
   "engines": {
     "node": "^10.15.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "secret-squirrel-commitmsg",
+      "pre-commit": "secret-squirrel"
+    }
   }
 }
