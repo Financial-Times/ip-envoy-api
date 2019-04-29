@@ -30,7 +30,7 @@
     "node-fetch": "^2.3.0",
     "pg": "^7.6.0",
     "snyk": "^1.143.1",
-    "swagger-jsdoc": "^3.2.8",
+    "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.2",
     "yamljs": "^0.3.0"
   },
