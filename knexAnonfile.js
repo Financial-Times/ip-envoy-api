@@ -1,12 +1,12 @@
-const client = 'pg';
+const client = "pg";
 
 module.exports = {
   production: {
     client,
-    connection: `${process.env.DATABASE_URL_ANON}?ssl=true`,
+    connection: `${process.env.DATABASE_URL_ANON}?ssl=true`
   },
   development: {
     client,
-    connection: `${process.env.DATABASE_URL_ANON}?ssl=true`, // TODO: change when going live.
+    connection: `${process.env.DATABASE_URL_ANON}` // TODO: change when going live.
   }
-}
+};

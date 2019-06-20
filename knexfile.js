@@ -1,12 +1,12 @@
-const client = 'pg';
+const client = "pg";
 
 module.exports = {
   production: {
     client,
-    connection: `${process.env.DATABASE_URL}?ssl=true`,
+    connection: `${process.env.DATABASE_URL}?ssl=true`
   },
   development: {
     client,
-    connection: `${process.env.DATABASE_URL}`,
+    connection: `${process.env.DATABASE_URL}`
   }
-}
+};

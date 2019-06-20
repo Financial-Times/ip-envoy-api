@@ -1,4 +1,4 @@
-const { connect }  = require("../../db/connect");
+const { connect } = require("../../db/connect");
 
 async function list(entityType, statusIds = [1, 2, 3, 4, 5]) {
   const ids = statusIds.join(","); // needed due to knex weirdness
@@ -14,12 +14,15 @@ async function list(entityType, statusIds = [1, 2, 3, 4, 5]) {
 
 async function getById(trackId, entityType) {
   const knex = connect(entityType);
-  const res = await knex.raw(`
+  const res = await knex.raw(
+    `
     SELECT t.* FROM "core"."track" t
     INNER JOIN "core"."trackRev" tr
     ON t."trackId" = tr."trackId"
     WHERE t."trackId" = ?
-  `, trackId);
+  `,
+    trackId
+  );
   return res.rows[0];
 }
 

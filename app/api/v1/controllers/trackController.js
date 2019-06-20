@@ -9,8 +9,8 @@ const unlink = util.promisify(fs.unlink); // TODO: implement the best strategy f
 
 async function listTracks(req, res, next) {
   try {
-    const userTracks = await core.track.list('user');
-    const anonTracks = await core.track.list('anon');
+    const userTracks = await core.track.list("user");
+    const anonTracks = await core.track.list("anon");
     const tracks = [...userTracks, ...anonTracks];
 
     return res.status(200).json({
@@ -23,8 +23,10 @@ async function listTracks(req, res, next) {
 
 async function createTrack(req, res, next) {
   const { preParser, dbBuilder } = lucidChart();
-  const { file: { path } } = req;
-  const { entityType, active} = req.body;
+  const {
+    file: { path }
+  } = req;
+  const { entityType, trackStatusId } = req.body;
 
   csv
     .fromPath(path, { headers: true })
@@ -38,12 +40,23 @@ async function createTrack(req, res, next) {
       try {
         // TODO: review this if else statement,
         if (await preParser.prepare(connect(entityType))) {
-          await dbBuilder.make(preParser.lucidCollectionPreped, connect(entityType));
+          await dbBuilder.make(
+            preParser.lucidCollectionPreped,
+            connect(entityType)
+          );
         }
 
         const lastTrack = await core.track.getLast(entityType);
+        const { trackId, name, descr } = lastTrack;
+        const updatedTrack = await core.track.updateTrack(
+          trackId,
+          name,
+          descr,
+          trackStatusId,
+          entityType
+        );
         return res.status(200).json({
-          data: lastTrack
+          data: updatedTrack
         });
       } catch (e) {
         return next(e);
