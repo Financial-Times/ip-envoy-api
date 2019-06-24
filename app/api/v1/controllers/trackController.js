@@ -1,6 +1,10 @@
 const util = require("util");
 const fs = require("fs");
 const csv = require("fast-csv");
+const {
+  preParser,
+  dbBuilder
+} = require("@financial-times/ip-envoy-lucidimporter");
 
 const core = require("../../../core");
 const { connect } = require("../../../db/connect");
@@ -22,11 +26,13 @@ async function listTracks(req, res, next) {
 }
 
 async function createTrack(req, res, next) {
-  const { preParser, dbBuilder } = lucidChart();
+  //const { preParser, dbBuilder } = lucidChart();
   const {
     file: { path }
   } = req;
   const { entityType, trackStatusId } = req.body;
+
+  preParser.newCollection();
 
   csv
     .fromPath(path, { headers: true })
