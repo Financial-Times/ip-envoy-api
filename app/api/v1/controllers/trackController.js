@@ -8,7 +8,6 @@ const {
 
 const core = require("../../../core");
 const { connect } = require("../../../db/connect");
-const lucidChart = require("../../../db/import/lucidChart");
 const unlink = util.promisify(fs.unlink); // TODO: implement the best strategy for removing the file.
 
 async function listTracks(req, res, next) {
