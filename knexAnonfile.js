@@ -7,6 +7,6 @@ module.exports = {
   },
   development: {
     client,
-    connection: `${process.env.DATABASE_URL_ANON}` // TODO: change when going live.
+    connection: `${process.env.DATABASE_URL_ANON}`
   }
 };
