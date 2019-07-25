@@ -35,7 +35,6 @@ async function getEntityCountForTrackSilos({ trackId, trackName, entityType }) {
       ORDER BY "campaign"."name", t."name", es."siloId";
   `;
   const res = await knex.raw(query);
-  console.log(res.rows);
   return res.rows;
 }
 
@@ -47,7 +46,7 @@ async function getVisitedTrackSilosForEntity({
 }) {
   const knex = connect(entityType);
   let query = `
-    SELECT "entityId", es."created" AS "timestamp", es."siloId", es."lastStepId", 
+    SELECT "entityId", es."created" AS "timestamp", es."siloId", es."lastStepId",
     rs.name AS ruleSetName, rs.descr AS ruleSetDescr, t.name AS "trackName", s.name, s.descr,
     justify_interval(date_trunc('second', age(es."created",
     (

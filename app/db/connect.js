@@ -41,7 +41,7 @@ for (const dbConfig of dbConfigList) {
     }
     delete times[uid]
   });
-  
+
   connections[dbConfig.name] = connection;
 }
 
