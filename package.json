@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@financial-times/health-check": "^1.6.1",
-    "@financial-times/ip-envoy-lucidimporter": "^0.1.22",
+    "@financial-times/ip-envoy-lucidimporter": "^0.1.24",
     "@financial-times/n-logger": "^6.1.0",
     "body-parser": "^1.19.0",
     "express": "^4.16.4",
