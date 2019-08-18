@@ -30,7 +30,7 @@
     "multer": "^1.4.1",
     "node-fetch": "^2.4.1",
     "pg": "^7.10.0",
-    "snyk": "^1.154.0",
+    "snyk": "^1.216.0",
     "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.2",
     "yamljs": "^0.3.0"
