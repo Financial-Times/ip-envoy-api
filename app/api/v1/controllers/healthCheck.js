@@ -110,16 +110,16 @@ const health = new HealthCheck({
     {
       type: "graphite-threshold",
       url:
-        "https://graphitev2-api.ft.com/render/?from=-5minutes&target=summarize(internalproducts.heroku.ip-envoy.worker_1.queue.age.median,%20%225minutes%22,%20%22avg%22,%20true)&format=json",
-      interval: 300000,
+        "https://graphitev2-api.ft.com/render/?from=-1minutes&target=summarize(internalproducts.heroku.ip-envoy.worker_1.queue.age.median,%20%221minutes%22,%20%22avg%22,%20true)&format=json",
+      interval: 60000,
       threshold: 1000,
       direction: "above",
       graphiteKey: process.env.FT_GRAPHITE_KEY,
       id: "envoy-event-age-check",
       name: "Envoy event age check 👵 👀",
       severity: 3,
-      businessImpact: `The age of events in the queue has risen above the specified threshold of ${envoyEventAgeThreshold}.`,
-      technicalSummary: `The age of events in the queue has risen above the specified threshold of ${envoyEventAgeThreshold}. This might indicate an issue and should be monitored.`,
+      businessImpact: `The age of events that Envoy is processing has risen above the specified threshold of ${envoyEventAgeThreshold}.`,
+      technicalSummary: `The age of events that Envoy is processing has risen above the specified threshold of ${envoyEventAgeThreshold}. This might indicate an issue and should be monitored.`,
       panicGuide: "Inspect RabbitMQ and Spoor API to see if anything is amiss."
     },
     // {
