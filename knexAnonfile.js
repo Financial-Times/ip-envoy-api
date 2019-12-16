@@ -7,6 +7,6 @@ module.exports = {
   },
   development: {
     client,
-    connection: `${process.env.DATABASE_URL_ANON}`
+    connection: `${process.env.DATABASE_URL_ANON}?ssl=true`
   }
 };

@@ -29,6 +29,13 @@ function deleteFromTrack({ trackId, entities, entityType }) {
   })
 }
 
+function deleteFromJourney({ journeyId, entities, entityType }) {
+   // SD TODO
+   console.warn("deleteFromJourney NOT yet implelented in v2");
+   return Promise.resolve(true);
+}
+
 module.exports = {
-  deleteFromTrack
+  deleteFromTrack, // this can go once we have migrated to v2
+  deleteFromJourney
 };

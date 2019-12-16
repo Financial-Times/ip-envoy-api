@@ -8,7 +8,7 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 const logger = require("./logger");
 
 const app = express();
-const API_VERSION = "v1";
+const API_VERSION = process.env.API_VERSION || "v1";
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

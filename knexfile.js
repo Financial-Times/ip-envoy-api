@@ -8,6 +8,6 @@ module.exports = {
   development: {
     debug: false,
     client,
-    connection: `${process.env.DATABASE_URL}`
+    connection: `${process.env.DATABASE_URL}?ssl=true`
   }
 };

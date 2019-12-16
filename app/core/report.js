@@ -14,8 +14,23 @@ async function getEntitiesForSilo(params) {
   return { count: res1, rows: res2 };
 }
 
+async function getEntityCountForJourneySilos(params) {
+  // SD todo
+}
+
+async function getVisitedJourneySilosForEntity(params) {
+  // SD todo
+}
+
+async function getEntitiesInSilo(params) {
+  // SD todo
+}
+
 module.exports = {
-  getEntityCountForTrackSilos,
+  getEntityCountForTrackSilos, // the first three of these can be removed after we migrate to v2
   getVisitedTrackSilosForEntity,
-  getEntitiesForSilo
+  getEntitiesForSilo,
+  getEntityCountForJourneySilos, // the "track" ones can be removed after we migrate to v2
+  getVisitedJourneySilosForEntity,
+  getEntitiesInSilo
 };
