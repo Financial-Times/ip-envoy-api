@@ -30,11 +30,11 @@ async function getLast(entityType) {
   return res.rows[0];
 }
 
-async function updateJourney(journeyId, name, descr, journeyStatusId, entityType) {
+async function updateJourney(journeyId, descr, journeyStatusId, entityType) {
   const knex = connect(entityType);
   await knex("core.journey")
     .where("journeyId", journeyId)
-    .update({ name, descr, journeyStatusId });
+    .update({ descr, journeyStatusId });
   const res = await getById(journeyId, entityType);
   return res;
 }

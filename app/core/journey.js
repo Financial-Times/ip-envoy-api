@@ -12,8 +12,8 @@ async function getLast(entityType) {
   return journeySQL.getLast(entityType);
 }
 
-async function updateJourney(journeyId, name, descr, journeyStatusId, entityType) {
-  return journeySQL.updateJourney(journeyId, name, descr, journeyStatusId, entityType);
+async function updateJourney(journeyId, descr, journeyStatusId, entityType) {
+  return journeySQL.updateJourney(journeyId, descr, journeyStatusId, entityType);
 }
 
 module.exports = {

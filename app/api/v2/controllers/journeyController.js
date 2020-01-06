@@ -13,7 +13,7 @@ const unlink = util.promisify(fs.unlink); // TODO: implement the best strategy f
 async function listJourneys(req, res, next) {
   try {
     const userJourneys = await core.journey.list("user");
-    const anonJourneys = await core.journey.list("anon");
+    const anonJourneys = await core.journey.list("anon");  
     const journeys = [...userJourneys, ...anonJourneys];
 
     return res.status(200).json({
@@ -25,12 +25,11 @@ async function listJourneys(req, res, next) {
 }
 
 async function createJourney(req, res, next) {
-  //const { preParser, dbBuilder } = lucidChart();
   const {
     file: { path }
   } = req;
-  const { entityType, journeyStatusId } = req.body;
 
+  const { entityType, journeyStatusId } = req.body;
   preParser.newCollection();
 
   csv
@@ -52,10 +51,9 @@ async function createJourney(req, res, next) {
         }
 
         const lastJourney = await core.journey.getLast(entityType);
-        const { journeyId, name, descr } = lastJourney;
+        const { journeyId, descr } = lastJourney;
         const updatedJourney = await core.journey.updateJourney(
           journeyId,
-          name,
           descr,
           journeyStatusId,
           entityType
@@ -82,12 +80,11 @@ async function getJourneyById(req, res, next) {
 
 async function updateJourney(req, res, next) {
   const { journeyId } = req.params;
-  const { name, descr, journeyStatusId, entityType } = req.body;
+  const { descr, journeyStatusId, entityType } = req.body;
+  console.warn({ descr, journeyStatusId, entityType });
   try {
-    // SD todo
     const updatedJourney = await core.journey.updateJourney(
       journeyId,
-      name,
       descr,
       journeyStatusId,
       entityType
