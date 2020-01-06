@@ -30,6 +30,7 @@ app.use((req, res, next) => {
   if (!header || header !== process.env.ENVOY_API_KEY) {
     return res.status(401).send("Unauthorized request");
   }
+  console.log(`handling request: ${req.method} ${req.originalUrl}`);
   return next();
 });
 

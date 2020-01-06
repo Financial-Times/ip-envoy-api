@@ -15,7 +15,7 @@ async function getEntitiesForSilo(params) {
 }
 
 async function getEntityCountForJourneySilos(params) {
-  // SD todo
+  return reportSQL.getEntityCountForJourneySilos(params);
 }
 
 async function getVisitedJourneySilosForEntity(params) {
