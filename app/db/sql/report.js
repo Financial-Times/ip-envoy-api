@@ -111,11 +111,10 @@ async function getEntitiesForSilo({ siloId, entityType, page, size }) {
 async function getEntityCountForJourneySilos({ journeyId, journeyName, entityType }) {
   const knex = connect(entityType);
 
-  if (journeyId) {
-    const journeyNameRes = await knex.raw(`
-    select "name" from core.journey where "journeyId" = ${journeyId}; 
-    `);
-    journeyName = journeyNameRes.rows[0]['name'];
+  if (!journeyName) {
+    console.warn('journeyName param not provided to getEntityCountForJourneySilos, so looking it up in DB');
+    journeyName = await getJourneyNameFromId(journeyId,entityType);
+    console.warn({journeyName});
   }
 
   const query = `
@@ -144,16 +143,23 @@ async function getEntityCountForJourneySilos({ journeyId, journeyName, entityTyp
   ;
   `;
 
-  console.warn(query);
-
   const res = await knex.raw(query);
   return res.rows;
 }
+
+async function getJourneyNameFromId(journeyId, entityType) {
+  const knex = connect(entityType);
+  const journeyNameRes = await knex.raw(`
+  select "name" from core.journey where "journeyId" = ${journeyId}; 
+  `);
+  return journeyNameRes.rows[0]['name'];
+}
+
 
 module.exports = {
   getEntityCountForTrackSilos,
   getVisitedTrackSilosForEntity,
   getEntitiesForSiloCount,
   getEntitiesForSilo,
-  getEntityCountForJourneySilos,
+  getEntityCountForJourneySilos
 };

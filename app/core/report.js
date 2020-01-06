@@ -18,19 +18,10 @@ async function getEntityCountForJourneySilos(params) {
   return reportSQL.getEntityCountForJourneySilos(params);
 }
 
-async function getVisitedJourneySilosForEntity(params) {
-  // SD todo
-}
-
-async function getEntitiesInSilo(params) {
-  // SD todo
-}
 
 module.exports = {
-  getEntityCountForTrackSilos, // the first three of these can be removed after we migrate to v2
-  getVisitedTrackSilosForEntity,
-  getEntitiesForSilo,
-  getEntityCountForJourneySilos, // the "track" ones can be removed after we migrate to v2
-  getVisitedJourneySilosForEntity,
-  getEntitiesInSilo
+  getEntityCountForTrackSilos, // can be removed after we migrate to v2
+  getVisitedTrackSilosForEntity, // not used?
+  getEntitiesForSilo, // not used?
+  getEntityCountForJourneySilos
 };
