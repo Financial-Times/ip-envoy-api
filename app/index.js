@@ -8,7 +8,7 @@ const swaggerDocument = YAML.load("./swagger.yaml");
 const logger = require("./logger");
 
 const app = express();
-const API_VERSION = "v1";
+const API_VERSION = process.env.API_VERSION || "v1";
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,6 +30,7 @@ app.use((req, res, next) => {
   if (!header || header !== process.env.ENVOY_API_KEY) {
     return res.status(401).send("Unauthorized request");
   }
+  console.log(`handling request: ${req.method} ${req.originalUrl}`);
   return next();
 });
 
