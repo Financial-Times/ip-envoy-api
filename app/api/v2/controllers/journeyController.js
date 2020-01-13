@@ -13,8 +13,7 @@ const unlink = util.promisify(fs.unlink); // TODO: implement the best strategy f
 async function listJourneys(req, res, next) {
   try {
     const userJourneys = await core.journey.list("user");
-    const anonJourneys = await core.journey.list("anon");  
-    const journeys = [...userJourneys, ...anonJourneys];
+    const journeys = [...userJourneys];
 
     return res.status(200).json({
       data: journeys
@@ -70,7 +69,7 @@ async function createJourney(req, res, next) {
 async function getJourneyById(req, res, next) {
   const { journeyId } = req.params;
   try {
-    const entityType = "user"; // for now, just support the user db
+    const entityType = "user"; 
     const journey = await core.journey.getById(journeyId,entityType);
     return res.status(200).json({ data: journey });
   } catch (e) {

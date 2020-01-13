@@ -1,11 +1,10 @@
 const knex = require('knex')
 
 const knexUserConfig = require('../../knexfile')
-const knexAnonConfig = require('../../knexAnonfile')
 const logger = require('../logger')
 
 const maxQueryTimeMillis = process.env.MAX_QUERY_TIME || 2000
-const dbConfigList = [ { name: 'user', conf: knexUserConfig }, { name: 'anon', conf: knexAnonConfig } ]
+const dbConfigList = [ { name: 'user', conf: knexUserConfig } ]
 const connections = {};
 
 for (const dbConfig of dbConfigList) {
