@@ -29,11 +29,19 @@ function deleteFromTrack({ trackId, entities, entityType }) {
   })
 }
 
-function deleteFromJourney({ journeyId, entities, entityType }) {
-   // SD TODO
-   console.warn("deleteFromJourney NOT yet implelented in v2");
-   return Promise.resolve(true);
+async function deleteFromJourney({ journeyName, entities, entityType }) {
+   const knex = connect(entityType);
+   const res = await knex.raw(`
+    UPDATE core.entity_journey_progression SET 
+    jsondata = jsondata - '${journeyName}'
+    where "entityId" in (${entities.map(e => `'${e}'`).join(', ')})
+    RETURNING "entityId";
+    `);
+   return res;
 }
+
+
+
 
 module.exports = {
   deleteFromTrack, // this can go once we have migrated to v2

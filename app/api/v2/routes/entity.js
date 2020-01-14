@@ -5,6 +5,6 @@ const { deleteEntitiesFromJourney } = require("../controllers/entityController")
 
 const router = express.Router();
 
-router.route("/:journeyId").delete(deleteEntitiesFromJourney);
+router.route("/:journeyName").delete(deleteEntitiesFromJourney);
 
 module.exports = router;

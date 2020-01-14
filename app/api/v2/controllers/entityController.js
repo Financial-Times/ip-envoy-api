@@ -1,19 +1,20 @@
 const core = require("../../../core");
 
 async function deleteEntitiesFromJourney(req, res, next) {
-  const { journeyId } = req.params;
+  
+  const { journeyName } = req.params;
   const { entities, entityType } = req.body;
+  console.warn({ journeyName, entities, entityType });
 
   try {
-    // SD TODO
-    const deletedRows = await core.entity.deleteFromJourney({
-      journeyId,
+    const {rowCount, rows} = await core.entity.deleteFromJourney({
+      journeyName,
       entities,
       entityType
     });
-    const [res1, res2] = deletedRows;
+    const removedEntities = rows.map(r=>r.entityId);
     return res.status(200).json({
-      data: { message: `${res1.rowCount + res2.rowCount} rows were deleted` }
+      data: { message: `${rowCount} entitites were removed from journey: ${journeyName}. List=${removedEntities}` }
     });
   } catch (err) {
     return next(err);
