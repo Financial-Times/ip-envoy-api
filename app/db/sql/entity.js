@@ -1,4 +1,5 @@
 const { connect } = require("../../db/connect");
+const logger = require('../../logger')
 
 function getDeletionFn(knex,  trx, trackId, entities) {
   return function(table) {
@@ -31,12 +32,14 @@ function deleteFromTrack({ trackId, entities, entityType }) {
 
 async function deleteFromJourney({ journeyName, entities, entityType }) {
    const knex = connect(entityType);
-   const res = await knex.raw(`
-    UPDATE core.entity_journey_progression SET 
-    jsondata = jsondata - '${journeyName}'
-    where "entityId" in (${entities.map(e => `'${e}'`).join(', ')})
-    RETURNING "entityId";
-    `);
+   const query = `
+   UPDATE core.entity_journey_progression SET 
+   jsondata = jsondata - '${journeyName}'
+   where "entityId" in (${entities.map(e => `'${e}'`).join(', ')})
+   RETURNING "entityId";
+   `;
+   logger.debug('Running query: ' + query);
+   const res = await knex.raw(query);
    return res;
 }
 
