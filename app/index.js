@@ -23,6 +23,8 @@ app.use(
 
 // API public routes Settings.
 app.use(`/api/${API_VERSION}`, require(`./api/${API_VERSION}/public`));
+// for now, support healthchecks for both v1 and v2...
+app.use(`/api/v1`, require(`./api/v1/public`));
 
 // API key middleware.
 app.use((req, res, next) => {
