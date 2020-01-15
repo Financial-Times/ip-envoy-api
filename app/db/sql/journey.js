@@ -1,12 +1,11 @@
 const { connect } = require("../connect");
 
 async function list(entityType, statusIds = [1, 2, 3, 4, 5]) {
-  const ids = statusIds.join(","); // needed due to knex weirdness
   const knex = connect(entityType);
   const res = await knex.raw(`
     SELECT * from core.journey
-    WHERE "journeyStatusId" IN (${ids})
-  `);
+    WHERE "journeyStatusId" = ANY (:statusIds)
+  `, {statusIds});
   return res.rows;
 }
 
@@ -14,9 +13,9 @@ async function getById(journeyId, entityType) {
   const knex = connect(entityType);
   const res = await knex.raw(`
     SELECT * from core.journey
-    WHERE "journeyId" = ?
+    WHERE "journeyId" = :journeyId
   `,
-  journeyId
+  {journeyId}
   );
   return res.rows[0];
 }

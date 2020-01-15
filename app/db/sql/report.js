@@ -117,7 +117,7 @@ async function getEntityCountForJourneySilos({ journeyId, journeyName, entityTyp
     console.warn({journeyName});
   }
 
-  const query = `
+  const res = await knex.raw(`
   select s."siloId",s."name",s.descr,st."name" AS "siloTypeName","entityCount","Oldest Landing","Most recent Landing","Longest Dwell","Shortest Dwell"
   from core.silo s
   inner join core.journey j
@@ -132,26 +132,25 @@ async function getEntityCountForJourneySilos({ journeyId, journeyName, entityTyp
       justify_interval(date_trunc('second', age(CURRENT_TIMESTAMP, MIN(silo.created)))) AS "Longest Dwell",
       justify_interval(date_trunc('second', age(CURRENT_TIMESTAMP, MAX(silo.created)))) AS "Shortest Dwell"
     FROM core.entity_journey_progression,
-      jsonb_to_record(jsonData->'${journeyName}'->-1) AS silo("siloId" INT, "siloName" VARCHAR, created TIMESTAMP)
-      WHERE jsonData \\?| array['${journeyName}']
+      jsonb_to_record(jsonData->:journeyName->-1) AS silo("siloId" INT, "siloName" VARCHAR, created TIMESTAMP)
+      WHERE jsonData \\?| array[:journeyName]
     group by "siloId"
     ) populated_silos
     
     on s."siloId" = populated_silos."siloId"
   
-  where j."name" = '${journeyName}'
+  where j."name" = :journeyName
   ;
-  `;
+  `, {journeyName});
 
-  const res = await knex.raw(query);
   return res.rows;
 }
 
 async function getJourneyNameFromId(journeyId, entityType) {
   const knex = connect(entityType);
   const journeyNameRes = await knex.raw(`
-  select "name" from core.journey where "journeyId" = ${journeyId}; 
-  `);
+  select "name" from core.journey where "journeyId" = :journeyId ; 
+  `, {journeyId});
   return journeyNameRes.rows[0]['name'];
 }
 
