@@ -14,10 +14,14 @@ async function deleteEntitiesFromJourney(req, res, next) {
       entityType
     });
     const removedEntities = rows.map(r=>r.entityId);
+    const outcome = `${rowCount} entitites were removed from journey: ${journeyName}. List=${removedEntities}`;
+    logger.info(outcome);
     return res.status(200).json({
-      data: { message: `${rowCount} entitites were removed from journey: ${journeyName}. List=${removedEntities}` }
+      data: { message: outcome }
     });
   } catch (err) {
+    logger.error('Error deleting entities from journey: ' + err.message);
+    logger.error(err);
     return next(err);
   }
 }
