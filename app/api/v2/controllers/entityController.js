@@ -1,10 +1,11 @@
 const core = require("../../../core");
+const logger = require('../../../logger')
 
 async function deleteEntitiesFromJourney(req, res, next) {
   
   const { journeyName } = req.params;
   const { entities, entityType } = req.body;
-  console.warn({ journeyName, entities, entityType });
+  logger.warn({ journeyName, entities, entityType });
 
   try {
     const {rowCount, rows} = await core.entity.deleteFromJourney({
