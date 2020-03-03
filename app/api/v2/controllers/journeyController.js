@@ -1,14 +1,12 @@
-const util = require("util");
+const { promisify } = require("util");
 const fs = require("fs");
-const csv = require("fast-csv");
-const {
-  preParser,
-  dbBuilder
-} = require("@financial-times/ip-envoy-lucidimporter");
+const { initiateImport } = require('@financial-times/ip-envoy-lucidimporter');
 
 const core = require("../../../core");
 const { connect } = require("../../../db/connect");
-const unlink = util.promisify(fs.unlink); // TODO: implement the best strategy for removing the file.
+const unlink = promisify(fs.unlink); // TODO: implement the best strategy for removing the file.
+
+const initiateLucidImport = promisify(initiateImport);
 
 async function listJourneys(req, res, next) {
   try {
@@ -29,41 +27,22 @@ async function createJourney(req, res, next) {
   } = req;
 
   const { entityType, journeyStatusId } = req.body;
-  preParser.newCollection();
 
-  csv
-    .fromPath(path, { headers: true })
-    .on("data", data => {
-      preParser.have(data);
-    })
-    .on("error", e => {
-      return next(e);
-    })
-    .on("end", async () => {
-      try {
-        // TODO: review this if else statement,
-        if (await preParser.prepare(connect(entityType))) {
-          await dbBuilder.make(
-            preParser.lucidCollectionPreped,
-            connect(entityType)
-          );
-        }
-
-        const lastJourney = await core.journey.getLast(entityType);
-        const { journeyId, descr } = lastJourney;
-        const updatedJourney = await core.journey.updateJourney(
-          journeyId,
-          descr,
-          journeyStatusId,
-          entityType
-        );
-        return res.status(200).json({
-          data: updatedJourney
-        });
-      } catch (e) {
-        return next(e);
-      }
+  await initiateLucidImport(path, connect(entityType))
+  .then(async () => {
+    const lastJourney = await core.journey.getLast(entityType);
+    const { journeyId, descr } = lastJourney;
+    const updatedJourney = await core.journey.updateJourney(
+      journeyId,
+      descr,
+      journeyStatusId,
+      entityType
+    );
+    return res.status(200).json({
+      data: updatedJourney
     });
+  })
+  .catch(e => next(e));
 }
 
 async function getJourneyById(req, res, next) {
