@@ -42,7 +42,7 @@ async function createJourney(req, res, next) {
       data: updatedJourney
     });
   })
-  .catch(e => next(e))
+  .catch(e => next(e));
 }
 
 async function getJourneyById(req, res, next) {
