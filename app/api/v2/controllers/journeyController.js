@@ -29,7 +29,7 @@ async function createJourney(req, res, next) {
   const { entityType, journeyStatusId } = req.body;
 
   await initiateLucidImport(path, connect(entityType))
-  .then(() => {
+  .then(async () => {
     const lastJourney = await core.journey.getLast(entityType);
     const { journeyId, descr } = lastJourney;
     const updatedJourney = await core.journey.updateJourney(
