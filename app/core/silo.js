@@ -1,7 +1,7 @@
 const siloSQL = require("../db/sql/silo");
 
-async function list(entityType) {
-  return siloSQL.list(entityType);
+async function list(params) {
+  return siloSQL.list(params);
 }
 
 module.exports = {
