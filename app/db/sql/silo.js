@@ -9,10 +9,10 @@ async function list({ entityType, journeyId }) {
   `;
   if (journeyId) {
     query += `
-      WHERE "journeyId" = ${journeyId}
+      WHERE "journeyId" = :journeyId
     `;
   }
-  const res = await knex.raw(query);
+  const res = await knex.raw(query, { journeyId });
   return res.rows;
 }
 

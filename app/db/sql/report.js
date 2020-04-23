@@ -27,15 +27,15 @@ async function getEntityCountForTrackSilos({ trackId, trackName, entityType }) {
     AND tr."deleted" IS NULL
     AND "campaignRev"."deleted" IS NULL `;
   if (trackId) {
-    query += `AND tr."trackRevId" = ${trackId} `;
+    query += `AND tr."trackRevId" = :trackId `;
   } else {
-    query += `AND t."name" = '${trackName}' `;
+    query += `AND t."name" = :trackName `;
   }
   query += `GROUP BY es."siloId", silo."name", silo."descr", t."name", t."descr", st."name", "campaign"."name"
       ORDER BY "campaign"."name", t."name", es."siloId";
   `;
   console.warn(query);
-  const res = await knex.raw(query);
+  const res = await knex.raw(query, { trackId, trackName });
   return res.rows;
 }
 
@@ -69,14 +69,14 @@ async function getVisitedTrackSilosForEntity({
     ON tr."trackRevId" = s."trackRevId"
     INNER JOIN core."track" AS t
     ON t."trackId" = tr."trackRevId"
-      WHERE "entityId" = '${entityId}' `;
+      WHERE "entityId" = :entityId `;
   if (trackId) {
-    query += `AND s."trackRevId" = ${trackId} `;
+    query += `AND s."trackRevId" = :trackId `;
   } else {
-    query += `AND t."name" = '${trackName}' `;
+    query += `AND t."name" = :trackName `;
   }
   query += `ORDER BY "entityId", es."created";`;
-  const res = await knex.raw(query);
+  const res = await knex.raw(query, { entityId, trackId, trackName });
   return res.rows;
 }
 
@@ -88,9 +88,9 @@ async function getEntitiesForSiloCount({ siloId, entityType }) {
     LEFT JOIN core."entity_silo" AS esx
     ON esx."parent_entity_silo_id" = es."entity_silo_id"
     WHERE esx."parent_entity_silo_id" IS NULL
-    AND es."siloId" = ${siloId};
+    AND es."siloId" = :siloId;
   `;
-  const res = await knex.raw(query);
+  const res = await knex.raw(query, { siloId });
   return res.rows[0].count;
 }
 
@@ -102,9 +102,9 @@ async function getEntitiesForSilo({ siloId, entityType, page, size }) {
     LEFT JOIN core."entity_silo" AS esx
     ON esx."parent_entity_silo_id" = es."entity_silo_id"
     WHERE esx."parent_entity_silo_id" IS NULL
-    AND es."siloId" = ${siloId} LIMIT ${size} OFFSET ${page};
+    AND es."siloId" = :siloId LIMIT :size OFFSET :page;
   `;
-  const res = await knex.raw(query);
+  const res = await knex.raw(query, { siloId, size, page });
   return res.rows;
 }
 
