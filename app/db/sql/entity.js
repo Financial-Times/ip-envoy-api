@@ -4,17 +4,17 @@ const logger = require('../../logger')
 function getDeletionFn(knex,  trx, trackId, entities) {
   return function(table) {
     return knex.raw(`
-    DELETE FROM ${table}
+    DELETE FROM :table
     WHERE entity_silo_id IN (
       SELECT distinct(entity_silo_id)
       FROM core."entity_silo" es
       INNER JOIN core."silo" s on es."siloId" = s."siloId"
       INNER JOIN core."trackRev" tr ON s."trackRevId" = tr."trackRevId"
       inner join core.track t ON tr."trackId" = t."trackId"
-      WHERE t."trackId" = ${trackId}
-      AND es."entityId" in (${entities.map(e => `'${e}'`).join(', ')})
+      WHERE t."trackId" = :trackId
+      AND es."entityId" = ANY(:entities)
     )
-  `).transacting(trx)
+  `, { table, trackId, entities }).transacting(trx)
   }
 }
 

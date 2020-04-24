@@ -7,8 +7,8 @@ async function list(entityType, statusIds = [1, 2, 3, 4, 5]) {
     SELECT t.*, tr.created FROM "core"."track" t
     INNER JOIN "core"."trackRev" tr
     ON t."trackId" = tr."trackId"
-    WHERE "t"."trackStatusId" IN (${ids})
-  `);
+    WHERE "t"."trackStatusId" IN (:ids)
+  `, { ids });
   return res.rows;
 }
 
