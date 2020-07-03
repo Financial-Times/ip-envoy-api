@@ -19,7 +19,7 @@
     "exec": "NODE_ENV=development node --require dotenv/config ./app/index.js"
   },
   "dependencies": {
-    "@financial-times/health-check": "^1.6.1",
+    "@financial-times/health-check": "^1.11.4",
     "@financial-times/ip-envoy-lucidimporter": "^5.0.0",
     "@financial-times/n-logger": "^6.1.0",
     "body-parser": "^1.19.0",
