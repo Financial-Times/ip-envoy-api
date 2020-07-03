@@ -1,3 +1,5 @@
+# *** No longer used. Archived on 3 July 2020 ***
+
 # ip-envoy-api
 
 This is a separate prototype Envoy API for the [IP Envoy project](https://github.com/Financial-Times/ip-envoy).
